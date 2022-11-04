@@ -12,7 +12,7 @@ public class Cliente implements Serializable {
 	private String direccion;
 	private String telefono;
 	private String email;
-
+	private Ciudad ciudad;
 
 	public Cliente(){
 
@@ -54,9 +54,15 @@ public class Cliente implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+
+	public Ciudad getCiudad() {
+		return ciudad;
 	}
+
+	public void setCiudad(Ciudad ciudad) {
+		this.ciudad = ciudad;
+	}
+
 
 
 }

@@ -13,6 +13,7 @@ public class Factura implements Serializable {
 	private int idFactura;
 	private double total;
 	private LocalDate fecha;
+	private Cliente cliente;
 
 	public Factura(){
 
@@ -40,6 +41,14 @@ public class Factura implements Serializable {
 
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 

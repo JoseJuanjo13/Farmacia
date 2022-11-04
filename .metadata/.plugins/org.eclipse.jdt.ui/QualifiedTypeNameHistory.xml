@@ -2,7 +2,15 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="javafx.application.Application"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
-<fullyQualifiedTypeName name="modelo.TipoUsuario"/>
+<fullyQualifiedTypeName name="modelo.TipoProveedor"/>
+<fullyQualifiedTypeName name="modelo.Sucursal"/>
 <fullyQualifiedTypeName name="java.time.LocalDate"/>
+<fullyQualifiedTypeName name="modelo.ProveedorProducto"/>
+<fullyQualifiedTypeName name="modelo.DetalleFactura"/>
+<fullyQualifiedTypeName name="modelo.DescuentoInteres"/>
+<fullyQualifiedTypeName name="modelo.TipoUsuario"/>
+<fullyQualifiedTypeName name="java.lang.Runnable"/>
 <fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="modelo.Farmacia"/>
+<fullyQualifiedTypeName name="persistencia.Persistencia"/>
 </qualifiedTypeNameHistroy>

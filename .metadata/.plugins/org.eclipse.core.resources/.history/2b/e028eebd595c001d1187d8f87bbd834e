@@ -1,0 +1,10 @@
+package controller;
+
+import modelo.Farmacia;
+
+public class ModelFactoryController {
+
+	Farmacia farmacia;
+
+
+}

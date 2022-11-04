@@ -16,6 +16,7 @@ public class Producto implements Serializable {
 	private int cantidad;
 	private LocalDate fechaVencimiento;
 	private Presentacion presentacion;
+	private DescuentoInteres descuentoInteres;
 
 	public Producto(){
 
@@ -67,6 +68,14 @@ public class Producto implements Serializable {
 
 	public void setFechaVencimiento(LocalDate fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
+	}
+
+	public DescuentoInteres getDescuentoInteres() {
+		return descuentoInteres;
+	}
+
+	public void setDescuentoInteres(DescuentoInteres descuentoInteres) {
+		this.descuentoInteres = descuentoInteres;
 	}
 
 

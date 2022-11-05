@@ -11,6 +11,13 @@
 <fullyQualifiedTypeName name="modelo.TipoUsuario"/>
 <fullyQualifiedTypeName name="java.lang.Runnable"/>
 <fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="controller.ModelFactoryController"/>
+<fullyQualifiedTypeName name="javafx.fxml.FXMLLoader"/>
+<fullyQualifiedTypeName name="javafx.scene.layout.AnchorPane"/>
+<fullyQualifiedTypeName name="controller.ContenedorPrincipal"/>
+<fullyQualifiedTypeName name="javafx.scene.Scene"/>
+<fullyQualifiedTypeName name="aplicacion.FarmaciaAplicacion"/>
 <fullyQualifiedTypeName name="modelo.Farmacia"/>
 <fullyQualifiedTypeName name="persistencia.Persistencia"/>
+<fullyQualifiedTypeName name="controller.ContenedorPrincipalController"/>
 </qualifiedTypeNameHistroy>

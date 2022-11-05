@@ -1,0 +1,20 @@
+package controller;
+
+import aplicacion.FarmaciaAplicacion;
+import modelo.Farmacia;
+import persistencia.Persistencia;
+
+public class ContenedorPrincipal {
+
+	ModelFactoryController modelFactoryController;
+	Farmacia farmacia;
+	FarmaciaAplicacion aplicacion;
+	Persistencia persistencia;
+
+	public void setAplicacion(FarmaciaAplicacion farmaciaAplicacion) {
+
+		this.aplicacion = farmaciaAplicacion;
+		this.farmacia = modelFactoryController.getFarmacia();
+
+	}
+}

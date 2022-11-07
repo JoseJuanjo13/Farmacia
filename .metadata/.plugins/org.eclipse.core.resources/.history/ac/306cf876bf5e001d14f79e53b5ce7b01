@@ -17,7 +17,7 @@ public class FarmaciaAplicacion extends Application{
 	Farmacia farmacia;
 	ModelFactoryController modelFactoryController;
 
-	public FarmaciaAplicacion() {
+	public void FarmaciaAplicacion() {
 
 		modelFactoryController = ModelFactoryController.getInstance();
 		farmacia = modelFactoryController.getFarmacia();

@@ -20,4 +20,7 @@
 <fullyQualifiedTypeName name="modelo.Farmacia"/>
 <fullyQualifiedTypeName name="persistencia.Persistencia"/>
 <fullyQualifiedTypeName name="controller.ContenedorPrincipalController"/>
+<fullyQualifiedTypeName name="javafx.fxml.FXML"/>
+<fullyQualifiedTypeName name="java.util.ResourceBundle"/>
+<fullyQualifiedTypeName name="java.net.URL"/>
 </qualifiedTypeNameHistroy>

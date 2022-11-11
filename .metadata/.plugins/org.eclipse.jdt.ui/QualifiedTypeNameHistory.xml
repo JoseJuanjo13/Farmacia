@@ -26,4 +26,13 @@
 <fullyQualifiedTypeName name="java.sql.DriverManager"/>
 <fullyQualifiedTypeName name="java.sql.SQLException"/>
 <fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
+<fullyQualifiedTypeName name="javafx.scene.control.ChoiceBox"/>
+<fullyQualifiedTypeName name="javafx.scene.control.DatePicker"/>
+<fullyQualifiedTypeName name="javafx.event.ActionEvent"/>
+<fullyQualifiedTypeName name="javafx.scene.control.ComboBox"/>
+<fullyQualifiedTypeName name="javafx.scene.control.Alert.AlertType"/>
+<fullyQualifiedTypeName name="javafx.scene.control.Alert"/>
+<fullyQualifiedTypeName name="modelo.Producto"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

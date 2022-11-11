@@ -1,0 +1,53 @@
+package modelo;
+
+import java.io.Serializable;
+
+public class DescuentoInteres implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private int idDescInte;
+	private String tipo;
+	private double cantidad;
+
+	public DescuentoInteres(){
+
+	}
+
+	public DescuentoInteres(int idDescInte, String tipo, double cantidad) {
+		this.idDescInte = idDescInte;
+		this.tipo = tipo;
+		this.cantidad = cantidad;
+	}
+
+
+
+	public int getIdDescInte() {
+		return idDescInte;
+	}
+
+	public void setIdDescInte(int idDescInte) {
+		this.idDescInte = idDescInte;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	public double getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(double cantidad) {
+		this.cantidad = cantidad;
+	}
+
+
+}

@@ -1,0 +1,28 @@
+package persistencia;
+
+import java.sql.Connection;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import modelo.DescuentoInteres;
+import modelo.Presentacion;
+
+public class Persistencia {
+
+	static ConexionSQL conexion = new ConexionSQL();
+	static Connection con = conexion.conexion();
+
+
+	public static void guardarProducto(String nombre, double precio_, int cantidad_, LocalDate fechaVencimiento,
+			DescuentoInteres descinte_, Presentacion presenta_) {
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String fechaVencimiento_ = fechaVencimiento.format(formatter);
+
+
+
+
+	}
+
+
+}

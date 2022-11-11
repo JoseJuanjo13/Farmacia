@@ -1,0 +1,19 @@
+package persistencia;
+
+import java.sql.Connection;
+import java.time.LocalDate;
+
+public class Persistencia {
+
+	static ConexionSQL conexion = new ConexionSQL();
+	static Connection con = conexion.conexion();
+
+
+	public static void guardarProducto(String nombre, String precio, String cantidad, LocalDate fechaVencimiento,
+			String descInte, String presentacion) {
+		// TODO Auto-generated method stub
+
+	}
+
+
+}

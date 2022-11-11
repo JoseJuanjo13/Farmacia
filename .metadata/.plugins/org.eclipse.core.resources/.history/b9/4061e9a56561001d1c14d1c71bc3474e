@@ -1,0 +1,83 @@
+package controller;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import aplicacion.FarmaciaAplicacion;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+import modelo.Farmacia;
+import persistencia.Persistencia;
+
+public class ContenedorPrincipalController {
+
+	@FXML
+	private ResourceBundle resources;
+
+	@FXML
+	private URL location;
+
+    @FXML
+    private TextField txtCantidadProducto;
+
+    @FXML
+    private TextField txtPrecioProducto;
+
+    @FXML
+    private TextField txtNombreProducto;
+
+    @FXML
+    private ComboBox<?> boxDesInProducto;
+
+    @FXML
+    private ComboBox<?> boxPresenProducto;
+
+    @FXML
+    private DatePicker dateFecVenciProducto;
+
+	ModelFactoryController modelFactoryController;
+	Farmacia farmacia;
+	FarmaciaAplicacion aplicacion;
+	Persistencia persistencia;
+
+	public ContenedorPrincipalController() {
+
+		modelFactoryController = ModelFactoryController.getInstance();
+		farmacia = modelFactoryController.getFarmacia();
+	}
+
+
+	@FXML
+	 void initialize() {
+
+	 }
+
+
+    @FXML
+    void crearProducto(ActionEvent event) {
+
+
+    }
+
+    @FXML
+    void actualizarProducto(ActionEvent event) {
+
+    }
+
+    @FXML
+    void eliminarProducto(ActionEvent event) {
+
+    }
+
+
+
+	public void setAplicacion(FarmaciaAplicacion farmaciaAplicacion) {
+
+		this.aplicacion = farmaciaAplicacion;
+		this.farmacia = modelFactoryController.getFarmacia();
+
+	}
+}

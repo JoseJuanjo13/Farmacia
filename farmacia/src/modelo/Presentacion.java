@@ -16,6 +16,13 @@ public class Presentacion implements Serializable{
 
 	}
 
+
+	public Presentacion(int idPresentacion, String nombrePresentacion) {
+		this.idPresentacion = idPresentacion;
+		this.nombrePresentacion = nombrePresentacion;
+	}
+
+
 	public int getIdPresentacion() {
 		return idPresentacion;
 	}
@@ -30,6 +37,12 @@ public class Presentacion implements Serializable{
 
 	public void setNombrePresentacion(String nombrePresentacion) {
 		this.nombrePresentacion = nombrePresentacion;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Presentacion [idPresentacion=" + idPresentacion + ", nombrePresentacion=" + nombrePresentacion + "]";
 	}
 
 

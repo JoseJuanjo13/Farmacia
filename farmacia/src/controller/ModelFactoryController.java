@@ -1,6 +1,11 @@
 package controller;
 
+import java.time.LocalDate;
+
+import modelo.DescuentoInteres;
 import modelo.Farmacia;
+import modelo.Presentacion;
+import modelo.Producto;
 import persistencia.Persistencia;
 
 public class ModelFactoryController implements Runnable {
@@ -28,6 +33,9 @@ public class ModelFactoryController implements Runnable {
 	private void inicializarDatos() {
 		// TODO Auto-generated method stub
 		farmacia = new Farmacia();
+
+		Persistencia.cargarDatosDescInte(farmacia);
+		Persistencia.cargarDatosPresen(farmacia);
 	}
 
 	public Farmacia getFarmacia() {
@@ -42,6 +50,22 @@ public class ModelFactoryController implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Producto crearProducto(String idProducto, String nombre, String precio, String cantidad, LocalDate fechaVencimiento,
+			String descInte, String presentacion) {
+
+		Producto producto = farmacia.agregarProducto(idProducto, nombre, precio, cantidad, fechaVencimiento, descInte, presentacion);
+
+		DescuentoInteres descinte_ = farmacia.obtenerDescInte(descInte);
+		Presentacion presenta_ = farmacia.obtenerPresen(presentacion);
+		double precio_ = Double.valueOf(precio);
+		int cantidad_ = Integer.valueOf(cantidad);
+
+		Persistencia.guardarProducto(idProducto, nombre, precio_, cantidad_, fechaVencimiento, descinte_, presenta_);
+
+
+		return producto;
 	}
 
 

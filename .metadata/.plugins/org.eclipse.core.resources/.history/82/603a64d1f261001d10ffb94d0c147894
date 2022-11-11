@@ -1,0 +1,44 @@
+package persistencia;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import modelo.DescuentoInteres;
+import modelo.Presentacion;
+
+public class Persistencia {
+
+	static ConexionSQL conexion = new ConexionSQL();
+	static Connection con = conexion.conexion();
+
+
+	public static void guardarProducto(String, idProducto, String nombre, double precio_, int cantidad_, LocalDate fechaVencimiento,
+			DescuentoInteres descinte_, Presentacion presenta_) {
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String fechaVencimiento_ = fechaVencimiento.format(formatter);
+
+		try {
+			String insertProducto = "insert into producto(id_producto, nombre, precio, cantidad, idDescInt, idPresentacion) "
+					 + "values (?, ?, ?, ?, ?, ?)";
+
+			PreparedStatement pst = con.prepareStatement(insertProducto);
+
+			pst.setString(1, cedula);
+			pst.setString(2, nombre);
+			pst.setString(3, apellido);
+			pst.setString(4, telefono);
+			pst.setString(5, correoElectronico);
+
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+
+	}
+
+
+}

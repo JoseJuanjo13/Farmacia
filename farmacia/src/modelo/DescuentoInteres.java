@@ -9,8 +9,7 @@ public class DescuentoInteres implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private int idDescInte;
-	private String nombre;
+	private int idDescInt;
 	private String tipo;
 	private double cantidad;
 
@@ -18,20 +17,20 @@ public class DescuentoInteres implements Serializable {
 
 	}
 
-	public int getIdDescInte() {
-		return idDescInte;
+	public DescuentoInteres(int idDescInt, String tipo, double cantidad) {
+		this.idDescInt = idDescInt;
+		this.tipo = tipo;
+		this.cantidad = cantidad;
 	}
 
-	public void setIdDescInte(int idDescInte) {
-		this.idDescInte = idDescInte;
+
+
+	public int getIdDescInt() {
+		return idDescInt;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setIdDescInt(int idDescInt) {
+		this.idDescInt = idDescInt;
 	}
 
 	public String getTipo() {
@@ -48,6 +47,11 @@ public class DescuentoInteres implements Serializable {
 
 	public void setCantidad(double cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	@Override
+	public String toString() {
+		return "DescuentoInteres [idDescInt=" + idDescInt + ", tipo=" + tipo + ", cantidad=" + cantidad + "]";
 	}
 
 

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="javafx.application.Application"/>
-<fullyQualifiedTypeName name="java.lang.Integer"/>
-<fullyQualifiedTypeName name="modelo.TipoProveedor"/>
 <fullyQualifiedTypeName name="modelo.Sucursal"/>
-<fullyQualifiedTypeName name="java.time.LocalDate"/>
 <fullyQualifiedTypeName name="modelo.ProveedorProducto"/>
 <fullyQualifiedTypeName name="modelo.DetalleFactura"/>
-<fullyQualifiedTypeName name="modelo.DescuentoInteres"/>
 <fullyQualifiedTypeName name="modelo.TipoUsuario"/>
 <fullyQualifiedTypeName name="java.lang.Runnable"/>
 <fullyQualifiedTypeName name="java.io.Serializable"/>
@@ -18,13 +14,11 @@
 <fullyQualifiedTypeName name="javafx.scene.Scene"/>
 <fullyQualifiedTypeName name="aplicacion.FarmaciaAplicacion"/>
 <fullyQualifiedTypeName name="modelo.Farmacia"/>
-<fullyQualifiedTypeName name="persistencia.Persistencia"/>
 <fullyQualifiedTypeName name="controller.ContenedorPrincipalController"/>
 <fullyQualifiedTypeName name="javafx.fxml.FXML"/>
 <fullyQualifiedTypeName name="java.util.ResourceBundle"/>
 <fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="java.sql.DriverManager"/>
-<fullyQualifiedTypeName name="java.sql.SQLException"/>
 <fullyQualifiedTypeName name="java.sql.Connection"/>
 <fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
 <fullyQualifiedTypeName name="javafx.scene.control.ChoiceBox"/>
@@ -33,6 +27,27 @@
 <fullyQualifiedTypeName name="javafx.scene.control.ComboBox"/>
 <fullyQualifiedTypeName name="javafx.scene.control.Alert.AlertType"/>
 <fullyQualifiedTypeName name="javafx.scene.control.Alert"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="java.time.format.DateTimeFormatter"/>
+<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+<fullyQualifiedTypeName name="javafx.collections.FXCollections"/>
+<fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
+<fullyQualifiedTypeName name="java.sql.Statement"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="javafx.scene.control.TableView"/>
+<fullyQualifiedTypeName name="javafx.scene.control.TableColumn"/>
+<fullyQualifiedTypeName name="javafx.scene.control.cell.PropertyValueFactory"/>
 <fullyQualifiedTypeName name="modelo.Producto"/>
+<fullyQualifiedTypeName name="persistencia.Persistencia"/>
+<fullyQualifiedTypeName name="java.time.ZoneId"/>
+<fullyQualifiedTypeName name="java.time.LocalDate"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="java.lang.Exception"/>
+<fullyQualifiedTypeName name="modelo.DescuentoInteres"/>
+<fullyQualifiedTypeName name="modelo.Presentacion"/>
+<fullyQualifiedTypeName name="modelo.Cliente"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="modelo.Proveedor"/>
+<fullyQualifiedTypeName name="modelo.TipoProveedor"/>
 </qualifiedTypeNameHistroy>

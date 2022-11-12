@@ -36,6 +36,7 @@ public class ModelFactoryController implements Runnable {
 
 		Persistencia.cargarDatosDescInte(farmacia);
 		Persistencia.cargarDatosPresen(farmacia);
+		Persistencia.cargarProductos(farmacia);
 	}
 
 	public Farmacia getFarmacia() {
@@ -66,6 +67,30 @@ public class ModelFactoryController implements Runnable {
 
 
 		return producto;
+	}
+
+	public boolean eliminarProducto(String idProducto) {
+
+		if (farmacia.eliminarProducto(idProducto)) {
+			Persistencia.eliminarProducto(idProducto);
+			return true;
+		}
+
+		return false;
+	}
+
+	public void actualizarProducto(String idProducto, String nombre, String precio, String cantidad,
+			LocalDate fechaVencimiento, String descInte, String presentacion, String idP) throws Exception {
+
+		farmacia.actualizarProducto(idProducto, nombre, precio, cantidad, fechaVencimiento, descInte, presentacion, idP);
+
+		DescuentoInteres descinte_ = farmacia.obtenerDescInte(descInte);
+		Presentacion presenta_ = farmacia.obtenerPresen(presentacion);
+		double precio_ = Double.valueOf(precio);
+		int cantidad_ = Integer.valueOf(cantidad);
+
+		Persistencia.actualizarProducto(idProducto, nombre, precio_, cantidad_, fechaVencimiento, descinte_, presenta_, idP);
+
 	}
 
 

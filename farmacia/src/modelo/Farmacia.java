@@ -13,15 +13,12 @@ public class Farmacia implements Serializable {
 
 	private String nit;
 
-	private ArrayList<Producto> listaProductos;
-	private ArrayList<Presentacion> listaPresentaciones;
-	private ArrayList<DescuentoInteres> listaDescuentoInteres;
+	private ArrayList<Producto> listaProductos =  new ArrayList<>();
+	private ArrayList<Presentacion> listaPresentaciones = new ArrayList<>();
+	private ArrayList<DescuentoInteres> listaDescuentoInteres = new ArrayList<>();
 
 	public Farmacia(){
 
-		this.listaProductos = new ArrayList<>();
-		this.listaDescuentoInteres = new ArrayList<>();
-		this.listaPresentaciones = new ArrayList<>();
 	}
 
 	public String getNit() {
@@ -79,17 +76,75 @@ public class Farmacia implements Serializable {
 		return null;
 	}
 
-	public DescuentoInteres obtenerDescInte(String descInte) {
+	public Presentacion obtenerPresen2(Integer presentacion) {
+		for (Presentacion presentacion_ : listaPresentaciones) {
+			if(presentacion_.getIdPresentacion() == presentacion)
+				return presentacion_;
+		}
+		return null;
+	}
 
+	public DescuentoInteres obtenerDescInte(String descInte) {
 		for (DescuentoInteres descuentoInteres : listaDescuentoInteres) {
 			if(descuentoInteres.getTipo().equalsIgnoreCase(descInte))
 				return descuentoInteres;
 		}
-
 		return null;
-
 	}
 
+	public DescuentoInteres obtenerDescInte2(Integer descInte) {
+
+		for (DescuentoInteres descuentoInteres : listaDescuentoInteres) {
+			if(descuentoInteres.getIdDescInt() == descInte)
+				return descuentoInteres;
+		}
+		return null;
+	}
+
+	public boolean eliminarProducto(String idProducto) {
+		boolean productoEliminado = false;
+		Producto producto = obtenerProducto(idProducto);
+
+		if(producto != null) {
+			getListaProductos().remove(producto);
+			productoEliminado = true;
+		}
+		return productoEliminado;
+	}
+
+	private Producto obtenerProducto(String idProducto) {
+		for (Producto producto : listaProductos) {
+			if(producto.getIdProducto().equalsIgnoreCase(idProducto))
+				return producto;
+		}
+		return null;
+	}
+
+	public Producto actualizarProducto(String idProducto, String nombre, String precio, String cantidad,
+			LocalDate fechaVencimiento, String descInte, String presentacion, String idP)  {
+
+		DescuentoInteres descuentoInteres = obtenerDescInte(descInte);
+		Presentacion presentacion_ = obtenerPresen(presentacion);
+		double precio_ = Double.valueOf(precio);
+		int cantidad_ = Integer.valueOf(cantidad);
+
+		Producto producto = obtenerProducto(idP);
+
+		System.out.println(producto.toString());
+
+		if(producto != null) {
+			producto.setIdProducto(idProducto);
+			producto.setNombre(nombre);
+			producto.setPrecio(precio_);
+			producto.setCantidad(cantidad_);
+			producto.setFechaVencimiento(fechaVencimiento);
+			producto.setDescuentoInteres(descuentoInteres);
+			producto.setPresentacion(presentacion_);
+
+		}
+
+		return producto;
+	}
 
 
 

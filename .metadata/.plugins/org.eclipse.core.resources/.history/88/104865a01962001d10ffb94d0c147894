@@ -1,0 +1,151 @@
+package modelo;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+public class Farmacia implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String nit;
+
+	private ArrayList<Producto> listaProductos =  new ArrayList<>();
+	private ArrayList<Presentacion> listaPresentaciones = new ArrayList<>();
+	private ArrayList<DescuentoInteres> listaDescuentoInteres = new ArrayList<>();
+
+	public Farmacia(){
+
+	}
+
+	public String getNit() {
+		return nit;
+	}
+
+	public void setNit(String nit) {
+		this.nit = nit;
+	}
+
+	public ArrayList<Producto> getListaProductos() {
+		return listaProductos;
+	}
+
+	public void setListaProductos(ArrayList<Producto> listaProductos) {
+		this.listaProductos = listaProductos;
+	}
+
+	public ArrayList<Presentacion> getListaPresentaciones() {
+		return listaPresentaciones;
+	}
+
+	public void setListaPresentaciones(ArrayList<Presentacion> listaPresentaciones) {
+		this.listaPresentaciones = listaPresentaciones;
+	}
+
+	public ArrayList<DescuentoInteres> getListaDescuentoInteres() {
+		return listaDescuentoInteres;
+	}
+
+	public void setListaDescuentoInteres(ArrayList<DescuentoInteres> listaDescuentoInteres) {
+		this.listaDescuentoInteres = listaDescuentoInteres;
+	}
+
+	public Producto agregarProducto(String idProducto, String nombre, String precio, String cantidad, LocalDate fechaVencimiento,
+			String descInte, String presentacion) {
+
+		DescuentoInteres descuentoInteres = obtenerDescInte(descInte);
+		Presentacion presentacion_ = obtenerPresen(presentacion);
+		double precio_ = Double.valueOf(precio);
+		int cantidad_ = Integer.valueOf(cantidad);
+
+		Producto producto = new Producto(idProducto, nombre, precio_, cantidad_, fechaVencimiento,presentacion_,descuentoInteres);
+		listaProductos.add(producto);
+
+		return producto;
+	}
+
+
+	public Presentacion obtenerPresen(String presentacion) {
+		for (Presentacion presentacion_ : listaPresentaciones) {
+			if(presentacion_.getNombrePresentacion().equalsIgnoreCase(presentacion))
+				return presentacion_;
+		}
+		return null;
+	}
+
+	public Presentacion obtenerPresen2(Integer presentacion) {
+		for (Presentacion presentacion_ : listaPresentaciones) {
+			if(presentacion_.getIdPresentacion() == presentacion)
+				return presentacion_;
+		}
+		return null;
+	}
+
+	public DescuentoInteres obtenerDescInte(String descInte) {
+		for (DescuentoInteres descuentoInteres : listaDescuentoInteres) {
+			if(descuentoInteres.getTipo().equalsIgnoreCase(descInte))
+				return descuentoInteres;
+		}
+		return null;
+	}
+
+	public DescuentoInteres obtenerDescInte2(Integer descInte) {
+
+		for (DescuentoInteres descuentoInteres : listaDescuentoInteres) {
+			if(descuentoInteres.getIdDescInt() == descInte)
+				return descuentoInteres;
+		}
+		return null;
+	}
+
+	public boolean eliminarProducto(String idProducto) {
+		boolean productoEliminado = false;
+		Producto producto = obtenerProducto(idProducto);
+
+		if(producto != null) {
+			getListaProductos().remove(producto);
+			productoEliminado = true;
+		}
+		return productoEliminado;
+	}
+
+	private Producto obtenerProducto(String idProducto) {
+		for (Producto producto : listaProductos) {
+			if(producto.getIdProducto().equalsIgnoreCase(idProducto))
+				return producto;
+		}
+		return null;
+	}
+
+	public Producto actualizarProducto(String idProducto, String nombre, String precio, String cantidad,
+			LocalDate fechaVencimiento, String descInte, String presentacion) throws Exception {
+
+		DescuentoInteres descuentoInteres = obtenerDescInte(descInte);
+		Presentacion presentacion_ = obtenerPresen(presentacion);
+		double precio_ = Double.valueOf(precio);
+		int cantidad_ = Integer.valueOf(cantidad);
+
+		Producto producto = obtenerProducto(idProducto);
+
+		if(producto != null) {
+			producto.setIdProducto(idProducto);
+			producto.setNombre(nombre);
+			producto.setPrecio(precio_);
+			producto.setCantidad(cantidad_);
+			producto.setFechaVencimiento(fechaVencimiento);
+			producto.setDescuentoInteres(descuentoInteres);
+			producto.setPresentacion(presentacion_);
+
+			return producto;
+		} else {
+			throw new Exception("El proveedor al que le desea actualizar los datos no se encuentra registrado");
+		}
+
+	}
+
+
+
+}

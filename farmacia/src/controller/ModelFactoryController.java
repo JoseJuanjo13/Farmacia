@@ -2,6 +2,7 @@ package controller;
 
 import java.time.LocalDate;
 
+import modelo.Cliente;
 import modelo.DescuentoInteres;
 import modelo.Farmacia;
 import modelo.Presentacion;
@@ -37,6 +38,7 @@ public class ModelFactoryController implements Runnable {
 		Persistencia.cargarDatosDescInte(farmacia);
 		Persistencia.cargarDatosPresen(farmacia);
 		Persistencia.cargarProductos(farmacia);
+		Persistencia.cargarDatosCliente(farmacia);
 	}
 
 	public Farmacia getFarmacia() {
@@ -91,6 +93,33 @@ public class ModelFactoryController implements Runnable {
 
 		Persistencia.actualizarProducto(idProducto, nombre, precio_, cantidad_, fechaVencimiento, descinte_, presenta_, idP);
 
+	}
+
+	public Cliente crearCliente(String cedula, String nombre, String apellido, String direccion, String telefono, String email,
+			String ciudad, String depto) {
+
+		Cliente cliente = farmacia.agregarCliente(cedula, nombre, apellido, direccion, telefono, email, ciudad, depto);
+		Persistencia.guardarCliente(cedula, nombre, apellido, direccion, telefono, email, ciudad, depto);
+
+		return cliente;
+
+	}
+
+	public boolean eliminarCliente(String cedula) {
+		if (farmacia.eliminarCliente(cedula)) {
+			Persistencia.eliminarCliente(cedula);
+			return true;
+		}
+
+		return false;
+	}
+
+	public void actualizarCliente(String cedula, String nombre, String apellido, String direccion, String telefono,
+			String email, String ciudad, String depto, String cedu) throws Exception{
+
+		farmacia.actualizarCliente(cedula, nombre, apellido, direccion, telefono, email, ciudad, depto, cedu);
+
+		Persistencia.actualizarCliente(cedula, nombre, apellido, direccion, telefono, email, ciudad, depto, cedu);
 	}
 
 

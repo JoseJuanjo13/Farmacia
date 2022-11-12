@@ -18,7 +18,7 @@
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="576.0" prefWidth="766.0">
                                  <children>
-                                    <GridPane layoutX="42.0" layoutY="107.0" prefHeight="338.0" prefWidth="484.0">
+                                    <GridPane layoutX="42.0" layoutY="107.0" prefHeight="364.0" prefWidth="484.0">
                                       <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.0" minWidth="10.0" prefWidth="164.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="278.0" minWidth="10.0" prefWidth="257.0" />
@@ -27,6 +27,7 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -48,17 +49,17 @@
                                                 <Font size="19.0" />
                                              </font>
                                           </Label>
-                                          <Label text="Telefono:" GridPane.rowIndex="3">
+                                          <Label text="Telefono:" GridPane.rowIndex="4">
                                              <font>
                                                 <Font size="19.0" />
                                              </font>
                                           </Label>
-                                          <Label text="Email:" GridPane.rowIndex="4">
+                                          <Label text="Email:" GridPane.rowIndex="5">
                                              <font>
                                                 <Font size="19.0" />
                                              </font>
                                           </Label>
-                                          <Label text="Ciudad:" GridPane.rowIndex="5">
+                                          <Label text="Ciudad:" GridPane.rowIndex="6">
                                              <font>
                                                 <Font size="19.0" />
                                              </font>
@@ -66,15 +67,21 @@
                                           <TextField fx:id="txtCedulaCliente" GridPane.columnIndex="1" />
                                           <TextField fx:id="txtNombreCliente" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <TextField fx:id="txtApellidoCliente" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                          <TextField fx:id="txtTelefonoCliente" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                          <TextField fx:id="txtEmailCliente" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                          <Label text="Departamento:" GridPane.rowIndex="6">
+                                          <TextField fx:id="txtTelefonoCliente" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <TextField fx:id="txtEmailCliente" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <Label text="Departamento:" GridPane.rowIndex="7">
                                              <font>
                                                 <Font size="19.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="txtDeptoCliente" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                          <TextField fx:id="txtCiudadCliente" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <TextField fx:id="txtDeptoCliente" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                          <TextField fx:id="txtCiudadCliente" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <Label text="Direccion:" GridPane.rowIndex="3">
+                                             <font>
+                                                <Font size="19.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="txtDireccionCliente" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                        </children>
                                     </GridPane>
                                     <Label layoutX="24.0" layoutY="30.0" prefHeight="35.0" prefWidth="217.0" text="Registro Cliente">
@@ -83,21 +90,19 @@
                                        </font>
                                     </Label>
                                     <Button layoutX="42.0" layoutY="525.0" mnemonicParsing="false" onAction="#crearCliente" prefHeight="45.0" prefWidth="134.0" text="Crear" />
-                                    <Button layoutX="209.0" layoutY="525.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="134.0" text="Actualizar" />
-                                    <Button layoutX="381.0" layoutY="525.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="134.0" text="Eliminar" />
+                                    <Button layoutX="209.0" layoutY="525.0" mnemonicParsing="false" onAction="#actualizarCliente" prefHeight="45.0" prefWidth="134.0" text="Actualizar" />
+                                    <Button layoutX="381.0" layoutY="525.0" mnemonicParsing="false" onAction="#eliminarCliente" prefHeight="45.0" prefWidth="134.0" text="Eliminar" />
                                  </children>
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="584.0" prefWidth="380.0">
                                  <children>
-                                    <TableView prefHeight="749.0" prefWidth="597.0">
+                                    <TableView fx:id="tableViewCliente" prefHeight="749.0" prefWidth="597.0">
                                       <columns>
-                                        <TableColumn prefWidth="75.0" text="Cedula" />
-                                        <TableColumn prefWidth="73.0" text="Nombre" />
-                                          <TableColumn prefWidth="113.0" text="Apellido" />
-                                          <TableColumn text="Telefono" />
-                                          <TableColumn prefWidth="87.0" text="Email" />
-                                          <TableColumn prefWidth="84.0" text="Ciudad" />
-                                          <TableColumn text="Departamento" />
+                                        <TableColumn fx:id="columnCedulaCliente" prefWidth="122.0" text="Cedula" />
+                                        <TableColumn fx:id="columnNombreCliente" prefWidth="105.0" text="Nombre" />
+                                          <TableColumn fx:id="columnApellidoCliente" prefWidth="110.0" text="Apellido" />
+                                          <TableColumn fx:id="columnTelefonoCliente" prefWidth="113.0" text="Telefono" />
+                                          <TableColumn fx:id="columnEmailCliente" prefWidth="141.0" text="Email" />
                                       </columns>
                                     </TableView>
                                  </children>

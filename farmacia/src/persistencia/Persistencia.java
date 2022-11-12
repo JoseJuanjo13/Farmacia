@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import controller.ModelFactoryController;
+import modelo.Cliente;
 import modelo.DescuentoInteres;
 import modelo.Farmacia;
 import modelo.Presentacion;
@@ -184,6 +185,113 @@ public class Persistencia {
 
 		} catch (SQLException e) {
 			System.out.println("Error al actualizar el producto en la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void guardarCliente(String cedula, String nombre, String apellido, String direccion, String telefono, String email,
+			String ciudad, String depto) {
+
+		try {
+			String insertCliente = "insert into cliente(cedula, nombre, apellido, direccion, correo, telefono, ciudad, depto) "
+						+ "values (?, ?, ?, ?, ?, ?, ?, ?);";
+
+			PreparedStatement pst = con.prepareStatement(insertCliente);
+
+			pst.setString(1, cedula);
+			pst.setString(2, nombre);
+			pst.setString(3, apellido);
+			pst.setString(4, direccion);
+			pst.setString(5, email);
+			pst.setString(6, telefono);
+			pst.setString(7, ciudad);
+			pst.setString(8, depto);
+
+			pst.execute();
+			System.out.println("Cliente almacenado correctamente en la base de datos");
+
+		} catch (Exception e) {
+			System.out.println("Error al almacenar el cliente en la base de datos " + e.getMessage());
+		}
+
+
+	}
+
+
+	public static void cargarDatosCliente(Farmacia farmacia) {
+
+		Cliente cliente;
+		String selectCliente = "select * from cliente";
+
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(selectCliente);
+
+			while(rs.next()) {
+
+				cliente = new Cliente(rs.getString("cedula"), rs.getString("nombre"),rs.getString("apellido"),
+						rs.getString("direccion"), rs.getString("telefono"), rs.getString("correo"),
+						rs.getString("ciudad"),rs.getString("depto"));
+
+				farmacia.getListaClientes().add(cliente);
+
+				System.out.println(cliente.toString());
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al cargar los clientes de la base de datos " + e.getMessage());
+		}
+
+
+	}
+
+
+	public static void eliminarCliente(String cedula) {
+
+		try {
+			String deleteCliente = "delete from cliente where cedula = " + cedula;
+			Statement st = con.createStatement();
+
+			int flag = st.executeUpdate(deleteCliente);
+
+			if(flag >= 0) System.out.println("Cliente eliminado");
+
+		} catch (SQLException e) {
+			System.out.println("Error al eliminar el cliente de la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void actualizarCliente(String cedula, String nombre, String apellido, String direccion,
+			String telefono, String email, String ciudad, String depto, String cedu) {
+
+
+		try {
+			String updateCliente = "update cliente set cedula = ?, nombre = ?, apellido = ?, direccion = ?,"
+					+ " correo = ?, telefono = ?, ciudad = ?, depto = ?"
+					+ "where cedula = ?";
+
+			PreparedStatement pst = con.prepareStatement(updateCliente);
+
+			pst.setString(1, cedula);
+			pst.setString(2, nombre);
+			pst.setString(3, apellido);
+			pst.setString(4, direccion);
+			pst.setString(5, email);
+			pst.setString(6, telefono);
+			pst.setString(7, ciudad);
+			pst.setString(8, depto);
+			pst.setString(9, cedu);
+
+			pst.execute();
+
+			System.out.println("Se actualizó el cliente correctamente en la base de datos");
+
+		} catch (SQLException e) {
+			System.out.println("Error al actualizar el cliente en la base de datos " + e.getMessage());
 		}
 
 	}

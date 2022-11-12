@@ -16,6 +16,7 @@ public class Farmacia implements Serializable {
 	private ArrayList<Producto> listaProductos =  new ArrayList<>();
 	private ArrayList<Presentacion> listaPresentaciones = new ArrayList<>();
 	private ArrayList<DescuentoInteres> listaDescuentoInteres = new ArrayList<>();
+	private ArrayList<Cliente> listaClientes = new ArrayList<>();
 
 	public Farmacia(){
 
@@ -51,6 +52,14 @@ public class Farmacia implements Serializable {
 
 	public void setListaDescuentoInteres(ArrayList<DescuentoInteres> listaDescuentoInteres) {
 		this.listaDescuentoInteres = listaDescuentoInteres;
+	}
+
+	public ArrayList<Cliente> getListaClientes() {
+		return listaClientes;
+	}
+
+	public void setListaClientes(ArrayList<Cliente> listaClientes) {
+		this.listaClientes = listaClientes;
 	}
 
 	public Producto agregarProducto(String idProducto, String nombre, String precio, String cantidad, LocalDate fechaVencimiento,
@@ -112,7 +121,7 @@ public class Farmacia implements Serializable {
 		return productoEliminado;
 	}
 
-	private Producto obtenerProducto(String idProducto) {
+	public Producto obtenerProducto(String idProducto) {
 		for (Producto producto : listaProductos) {
 			if(producto.getIdProducto().equalsIgnoreCase(idProducto))
 				return producto;
@@ -144,6 +153,56 @@ public class Farmacia implements Serializable {
 		}
 
 		return producto;
+	}
+
+	public Cliente agregarCliente(String cedula, String nombre, String apellido, String direccion, String telefono, String email,
+			String ciudad, String depto) {
+		// TODO Auto-generated method stub
+
+		Cliente cliente = new Cliente(cedula, nombre, apellido, direccion, telefono, email, ciudad, depto);
+		listaClientes.add(cliente);
+
+		return cliente;
+	}
+
+	public boolean eliminarCliente(String cedula) {
+		boolean clienteEliminado = false;
+		Cliente cliente = obtenerCliente(cedula);
+
+		if(cedula != null) {
+			getListaClientes().remove(cliente);
+			clienteEliminado = true;
+		}
+		return clienteEliminado;
+	}
+
+	public Cliente obtenerCliente(String cedula) {
+		for (Cliente cliente : listaClientes) {
+			if(cliente.getCedula().equalsIgnoreCase(cedula))
+				return cliente;
+		}
+		return null;
+	}
+
+	public Cliente actualizarCliente(String cedula, String nombre, String apellido, String direccion, String telefono,
+			String email, String ciudad, String depto, String cedu) {
+
+		Cliente cliente = obtenerCliente(cedu);
+
+		System.out.println(cliente.toString());
+
+		if(cliente != null) {
+			cliente.setCedula(cedula);
+			cliente.setNombre(nombre);
+			cliente.setApellido(apellido);
+			cliente.setDireccion(direccion);
+			cliente.setTelefono(telefono);
+			cliente.setEmail(email);
+			cliente.setCiudad(ciudad);
+			cliente.setDepto(depto);
+		}
+
+		return cliente;
 	}
 
 

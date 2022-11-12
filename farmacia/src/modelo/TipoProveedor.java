@@ -16,6 +16,12 @@ public class TipoProveedor implements Serializable {
 
 	}
 
+	public TipoProveedor(int idTipoProveedor, String tipoProveedor) {
+		super();
+		this.idTipoProveedor = idTipoProveedor;
+		this.tipoProveedor = tipoProveedor;
+	}
+
 	public int getIdTipoProveedor() {
 		return idTipoProveedor;
 	}

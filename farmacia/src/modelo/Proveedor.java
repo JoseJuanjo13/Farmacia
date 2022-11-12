@@ -17,6 +17,13 @@ public class Proveedor implements Serializable{
 
 	}
 
+
+	public Proveedor(String nit, String nombreEmpresa, TipoProveedor tipoProveedor) {
+		this.nit = nit;
+		this.nombreEmpresa = nombreEmpresa;
+		this.tipoProveedor = tipoProveedor;
+	}
+
 	public String getNit() {
 		return nit;
 	}

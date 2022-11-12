@@ -17,6 +17,8 @@ public class Farmacia implements Serializable {
 	private ArrayList<Presentacion> listaPresentaciones = new ArrayList<>();
 	private ArrayList<DescuentoInteres> listaDescuentoInteres = new ArrayList<>();
 	private ArrayList<Cliente> listaClientes = new ArrayList<>();
+	private ArrayList<TipoProveedor> listaTipoProveedores = new ArrayList<>();
+	private ArrayList<Proveedor> listaProveedores = new ArrayList<>();
 
 	public Farmacia(){
 
@@ -60,6 +62,21 @@ public class Farmacia implements Serializable {
 
 	public void setListaClientes(ArrayList<Cliente> listaClientes) {
 		this.listaClientes = listaClientes;
+	}
+	public ArrayList<TipoProveedor> getListaTipoProveedores() {
+		return listaTipoProveedores;
+	}
+
+	public void setListaTipoProveedores(ArrayList<TipoProveedor> listaTipoProveedores) {
+		this.listaTipoProveedores = listaTipoProveedores;
+	}
+
+	public ArrayList<Proveedor> getListaProveedores() {
+		return listaProveedores;
+	}
+
+	public void setListaProveedores(ArrayList<Proveedor> listaProveedores) {
+		this.listaProveedores = listaProveedores;
 	}
 
 	public Producto agregarProducto(String idProducto, String nombre, String precio, String cantidad, LocalDate fechaVencimiento,
@@ -169,7 +186,7 @@ public class Farmacia implements Serializable {
 		boolean clienteEliminado = false;
 		Cliente cliente = obtenerCliente(cedula);
 
-		if(cedula != null) {
+		if(cliente != null) {
 			getListaClientes().remove(cliente);
 			clienteEliminado = true;
 		}
@@ -205,6 +222,67 @@ public class Farmacia implements Serializable {
 		return cliente;
 	}
 
+	public Proveedor obtenerProveedor(String nit) {
+		for (Proveedor proveedor : listaProveedores) {
+			if(proveedor.getNit().equalsIgnoreCase(nit))
+				return proveedor;
+		}
+		return null;
+	}
 
+	public Proveedor agregarProveedor(String nit, String nombreProveedor, String tipoProveedor) {
+
+		TipoProveedor tipoProveedor_ = obtenerTipoProveedor(tipoProveedor);
+
+		Proveedor proveedor = new Proveedor(nit, nombreProveedor, tipoProveedor_);
+		listaProveedores.add(proveedor);
+
+		return proveedor;
+
+	}
+
+	public TipoProveedor obtenerTipoProveedor(String tipoProveedor) {
+		for (TipoProveedor tipoProveedor_ : listaTipoProveedores) {
+			if(tipoProveedor_.getTipoProveedor().equalsIgnoreCase(tipoProveedor))
+				return tipoProveedor_;
+		}
+		return null;
+	}
+
+
+	public TipoProveedor obtenerTipoProveedor2(Integer tipoProveedor) {
+		for (TipoProveedor tipoProveedor_ : listaTipoProveedores) {
+			if(tipoProveedor_.getIdTipoProveedor() == tipoProveedor)
+				return tipoProveedor_;
+		}
+		return null;
+	}
+
+	public boolean eliminarProveedor(String nit) {
+		boolean proveedorEliminado = false;
+		Proveedor proveedor = obtenerProveedor(nit);
+
+		if(proveedor != null) {
+			getListaProveedores().remove(nit);
+			proveedorEliminado = true;
+		}
+		return proveedorEliminado;
+	}
+
+	public Proveedor actualizarProveedor(String nit, String nombreProveedor, String tipoProveedor, String nitA) {
+
+		Proveedor proveedor = obtenerProveedor(nitA);
+		TipoProveedor tipoProv_ = obtenerTipoProveedor(tipoProveedor);
+
+		if(proveedor != null) {
+			proveedor.setNit(nitA);
+			proveedor.setNombreEmpresa(nombreProveedor);
+			proveedor.setTipoProveedor(tipoProv_);
+
+		}
+
+		return proveedor;
+
+	}
 
 }

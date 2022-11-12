@@ -7,6 +7,8 @@ import modelo.DescuentoInteres;
 import modelo.Farmacia;
 import modelo.Presentacion;
 import modelo.Producto;
+import modelo.Proveedor;
+import modelo.TipoProveedor;
 import persistencia.Persistencia;
 
 public class ModelFactoryController implements Runnable {
@@ -37,8 +39,10 @@ public class ModelFactoryController implements Runnable {
 
 		Persistencia.cargarDatosDescInte(farmacia);
 		Persistencia.cargarDatosPresen(farmacia);
+		Persistencia.cargarDatosTipoProv(farmacia);
 		Persistencia.cargarProductos(farmacia);
 		Persistencia.cargarDatosCliente(farmacia);
+		Persistencia.cargarDatosProveedor(farmacia);
 	}
 
 	public Farmacia getFarmacia() {
@@ -120,6 +124,36 @@ public class ModelFactoryController implements Runnable {
 		farmacia.actualizarCliente(cedula, nombre, apellido, direccion, telefono, email, ciudad, depto, cedu);
 
 		Persistencia.actualizarCliente(cedula, nombre, apellido, direccion, telefono, email, ciudad, depto, cedu);
+	}
+
+	public Proveedor crearProveedor(String nit, String nombreProveedor, String tipoProveedor) {
+		// TODO Auto-generated method stub
+		Proveedor proveedor = farmacia.agregarProveedor(nit, nombreProveedor, tipoProveedor);
+
+		TipoProveedor tipoProveedor_ = farmacia.obtenerTipoProveedor(tipoProveedor);
+
+		Persistencia.guardarProveedor(nit, nombreProveedor, tipoProveedor_);
+
+		return proveedor;
+	}
+
+	public boolean eliminarProveedor(String nit) {
+		if (farmacia.eliminarProveedor(nit)) {
+			Persistencia.eliminarProveedor(nit);
+			return true;
+		}
+
+		return false;
+	}
+
+	public void actualizarProveedor(String nit, String nombreProveedor, String tipoProveedor, String nitA) {
+
+		farmacia.actualizarProveedor(nit, nombreProveedor, tipoProveedor, nitA);
+
+		TipoProveedor tipoProv = farmacia.obtenerTipoProveedor(tipoProveedor);
+
+		Persistencia.actualizarProveedor(nit, nombreProveedor, tipoProv, nitA);
+
 	}
 
 

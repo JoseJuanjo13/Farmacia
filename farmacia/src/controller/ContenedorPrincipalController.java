@@ -24,6 +24,8 @@ import modelo.DescuentoInteres;
 import modelo.Farmacia;
 import modelo.Presentacion;
 import modelo.Producto;
+import modelo.Proveedor;
+import modelo.TipoProveedor;
 import persistencia.Persistencia;
 
 public class ContenedorPrincipalController {
@@ -75,9 +77,23 @@ public class ContenedorPrincipalController {
     @FXML
     private TableColumn<Cliente, String> columnCedulaCliente, columnNombreCliente, columnApellidoCliente, columnTelefonoCliente, columnEmailCliente;
 
+    @FXML
+    private TextField txtNitProveedor, txtNombreProveedor;
+
+    @FXML
+    private ComboBox<String> boxTipoProveedor;
+    ObservableList<String> listaTipoProv = FXCollections.observableArrayList();
+
+    @FXML
+    private TableView<Proveedor> tableViewProveedor;
+
+    @FXML
+    private TableColumn<Proveedor, String> columnNitProveedor, columnNombreProveedor;
+
 
     private Producto productoSeleccionado;
     private Cliente clienteSeleccionado;
+    private Proveedor proveedorSeleccionado;
 
 	ModelFactoryController modelFactoryController;
 	Farmacia farmacia;
@@ -86,6 +102,7 @@ public class ContenedorPrincipalController {
 
     ObservableList<Producto> listadoProductos = FXCollections.observableArrayList();
     ObservableList<Cliente> listadoClientes = FXCollections.observableArrayList();
+    ObservableList<Proveedor> listadoProveedores = FXCollections.observableArrayList();
 
 	public ContenedorPrincipalController() {
 
@@ -106,6 +123,12 @@ public class ContenedorPrincipalController {
 			listaPresen.add(presentacion.getNombrePresentacion());
 		}
 		boxPresenProducto.setItems(listaPresen);
+
+		for (TipoProveedor tipoProveedor : farmacia.getListaTipoProveedores()) {
+			listaTipoProv.add(tipoProveedor.getTipoProveedor());
+		}
+		boxTipoProveedor.setItems(listaTipoProv);
+
 
 		//producto
 		this.columnNombreProducto.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -135,10 +158,34 @@ public class ContenedorPrincipalController {
     	    }
     	});
 
+	   	//proveedor
+	   	this.columnNitProveedor.setCellValueFactory(new PropertyValueFactory<>("nit"));
+	   	this.columnNombreProveedor.setCellValueFactory(new PropertyValueFactory<>("nombreEmpresa"));
+
+	   	tableViewProveedor.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+    	    if (newSelection != null) {
+    	    	proveedorSeleccionado = newSelection;
+    	    	cargarCampos3();
+    	    }
+    	});
 	 }
 
 
-    private void cargarCampos2() {
+    private void cargarCampos3() {
+		if(proveedorSeleccionado != null)
+		{
+	    	txtNitProveedor.setText(proveedorSeleccionado.getNit());
+	    	txtNombreProveedor.setText(proveedorSeleccionado.getNombreEmpresa());
+	    	boxTipoProveedor.setId(proveedorSeleccionado.getTipoProveedor().getTipoProveedor());
+
+		}else{
+			mostrarMensaje("Proveedor Seleccion", "Proveedor Seleccion", "NO se ha seleccionado ningún Proveedor", AlertType.WARNING);
+		}
+
+	}
+
+
+	private void cargarCampos2() {
 		if(clienteSeleccionado != null)
 		{
 		    txtCedulaCliente.setText(clienteSeleccionado.getCedula());
@@ -287,6 +334,7 @@ public class ContenedorPrincipalController {
     	dateFecVenciProducto.setValue(null); boxDesInProducto.setValue(null); boxPresenProducto.setValue(null);
     	txtCedulaCliente.clear(); txtNombreCliente.clear();txtApellidoCliente.clear();txtTelefonoCliente.clear();
     	txtEmailCliente.clear();txtCiudadCliente.clear();txtDeptoCliente.clear();txtDireccionCliente.clear();
+    	txtNitProveedor.clear(); txtNombreProveedor.clear(); boxTipoProveedor.setValue(null);
 	}
 
     private boolean verificarDatos(String idProducto, String nombre, String precio, String cantidad, LocalDate fechaVencimiento,
@@ -404,7 +452,6 @@ public class ContenedorPrincipalController {
 
     @FXML
     void eliminarCliente(ActionEvent event) {
-
     	if(clienteSeleccionado != null){
 			 int showConfirmDialog = JOptionPane.showConfirmDialog(null, "Desea eliminar el cliente "+clienteSeleccionado.getCedula());
 			 if(showConfirmDialog == 0){
@@ -424,7 +471,115 @@ public class ContenedorPrincipalController {
 		}else{
 			mostrarMensaje("Cliente Seleccion", "Cliente Seleccion", "NO se ha seleccionado ningún Cliente", AlertType.WARNING);
 		}
+    }
 
+  //------------------------------------------------- PROVEEDOR -----------------------------------------------------------------
+
+    @FXML
+    void crearProveedor(ActionEvent event) {
+
+    	String nit = txtNitProveedor.getText();
+    	String nombreProveedor = txtNombreProveedor.getText();
+    	String tipoProveedor = boxTipoProveedor.getValue();
+
+    	if(verificarDatosP(nit, nombreProveedor, tipoProveedor)){
+    		if (farmacia.obtenerProveedor(nit) != null) {
+    			mostrarMensaje("Notificacion Usuario", "Proveedor No Registrado", "El nit se encuentra registrado", AlertType.WARNING);
+			}else{
+        		Proveedor proveedor;
+        		try {
+        			proveedor = modelFactoryController.crearProveedor(nit, nombreProveedor, tipoProveedor);
+    				if (proveedor != null) {
+    					listadoProveedores.add(0, proveedor);
+    					mostrarMensaje("Notificacion Usuario", "Proveedor Registrado", "El Proveedor ha sido registrado", AlertType.INFORMATION);
+    					limpiarRegistros();
+    				}else{
+    					mostrarMensaje("Notificacion Usuario", "Proveedor No Registrado", "El Proveedor no ha sido registrado", AlertType.WARNING);
+    				}
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			}
+    		}
+    	}
+
+    }
+
+    private boolean verificarDatosP(String nit, String nombreProveedor, String tipoProveedor) {
+    	String notificacion = "";
+
+     	if (nit == null || nit.equals("")) {
+			notificacion += "El nit es invalido\n";
+		}
+ 		if(nombreProveedor == null || nombreProveedor.equals("")){
+ 			notificacion += "El nombre es invalido\n";
+ 		}
+ 		if(tipoProveedor == null || tipoProveedor.equals("")){
+ 			notificacion += "El tipo proveedor es invalido\n";
+ 		}
+ 		if(notificacion.equals("")){
+ 			return true;
+ 		}
+
+ 		mostrarMensaje("Notificacion Proveedor", "Informacion del proveedor invalido", notificacion, AlertType.WARNING);
+
+ 		return false;
+}
+
+
+	@FXML
+    void actualizarProveedor(ActionEvent event) {
+
+    	String nit = txtNitProveedor.getText();
+    	String nombreProveedor = txtNombreProveedor.getText();
+    	String tipoProveedor = boxTipoProveedor.getValue();
+
+		if(proveedorSeleccionado != null){
+			if(verificarDatosP(nit, nombreProveedor, tipoProveedor))
+			{
+				try {
+					modelFactoryController.actualizarProveedor(nit, nombreProveedor, tipoProveedor, proveedorSeleccionado.getNit());
+					proveedorSeleccionado.setNit(nit);
+					proveedorSeleccionado.setNombreEmpresa(nombreProveedor);
+					TipoProveedor tipoProveedor_ = farmacia.obtenerTipoProveedor(tipoProveedor);
+					proveedorSeleccionado.setTipoProveedor(tipoProveedor_);
+
+					tableViewProveedor.refresh();
+					limpiarRegistros();
+
+					mostrarMensaje("Notificacion Usuario", "Proveedor Actualizado", "El Proveedor "+ nit +" ha sido actualizado exitosamente", AlertType.INFORMATION);
+					//limpiarRegistros();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}else {
+			mostrarMensaje("Proveedor Seleccion", "Proveedor Seleccion", "NO se ha seleccionado ningún Proveedor", AlertType.WARNING);
+		}
+
+    }
+
+    @FXML
+    void eliminarProveedor(ActionEvent event) {
+
+    	if(proveedorSeleccionado != null){
+			 int showConfirmDialog = JOptionPane.showConfirmDialog(null, "Desea eliminar el proveedor "+ proveedorSeleccionado.getNombreEmpresa());
+			 if(showConfirmDialog == 0){
+				 try {
+					if(modelFactoryController.eliminarProveedor(proveedorSeleccionado.getNit())){
+						mostrarMensaje("Proveedor Eliminado", "Proveedor Eliminado", "El Proveedor ha sido eliminado", AlertType.WARNING);
+					 }else{
+						 mostrarMensaje("Proveedor Seleccion", "Proveedor Seleccion", "NO se ha seleccionado ningún Proveedor", AlertType.INFORMATION);
+					 }
+				 listadoProveedores.remove(proveedorSeleccionado);
+				 limpiarRegistros();
+				 tableViewProveedor.refresh();;
+				 } catch (Exception e){
+					e.printStackTrace();
+				 }
+			}
+		}else{
+			mostrarMensaje("Proveedor Seleccion", "Proveedor Seleccion", "NO se ha seleccionado ningún Proveedor", AlertType.WARNING);
+		}
 
     }
 
@@ -488,6 +643,18 @@ public class ContenedorPrincipalController {
 		tableViewCliente.getItems().clear();
 		tableViewCliente.setItems(getClientes());
 
+		//proveedor
+		tableViewProveedor.getItems().clear();
+		tableViewProveedor.setItems(getProveedores());
+
+	}
+
+
+	private ObservableList<Proveedor> getProveedores() {
+		// TODO Auto-generated method stub
+		listadoProveedores.clear();
+		listadoProveedores.addAll(farmacia.getListaProveedores());
+		return listadoProveedores;
 	}
 
 

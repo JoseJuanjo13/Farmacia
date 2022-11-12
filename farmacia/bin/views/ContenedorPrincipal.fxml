@@ -244,23 +244,22 @@
                                                 <Font size="19.0" />
                                              </font>
                                           </Label>
-                                          <TextField GridPane.columnIndex="1" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <TextField fx:id="txtNitProveedor" GridPane.columnIndex="1" />
+                                          <TextField fx:id="txtNombreProveedor" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <ComboBox fx:id="boxTipoProveedor" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                        </children>
                                     </GridPane>
-                                    <Button layoutX="42.0" layoutY="408.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="134.0" text="Crear" />
-                                    <Button layoutX="217.0" layoutY="408.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="134.0" text="Actualizar" />
-                                    <Button layoutX="381.0" layoutY="408.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="134.0" text="Eliminar" />
+                                    <Button layoutX="42.0" layoutY="408.0" mnemonicParsing="false" onAction="#crearProveedor" prefHeight="45.0" prefWidth="134.0" text="Crear" />
+                                    <Button layoutX="217.0" layoutY="408.0" mnemonicParsing="false" onAction="#actualizarProveedor" prefHeight="45.0" prefWidth="134.0" text="Actualizar" />
+                                    <Button layoutX="381.0" layoutY="408.0" mnemonicParsing="false" onAction="#eliminarProveedor" prefHeight="45.0" prefWidth="134.0" text="Eliminar" />
                                  </children>
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
-                                    <TableView prefHeight="750.0" prefWidth="593.0">
+                                    <TableView fx:id="tableViewProveedor" prefHeight="750.0" prefWidth="593.0">
                                       <columns>
-                                        <TableColumn prefWidth="245.0" text="Nit" />
-                                        <TableColumn prefWidth="145.0" text="Nombre empresa" />
-                                          <TableColumn prefWidth="194.0" text="Tipo proveedor" />
+                                        <TableColumn fx:id="columnNitProveedor" prefWidth="299.0" text="Nit" />
+                                        <TableColumn fx:id="columnNombreProveedor" prefWidth="282.0" text="Nombre empresa" />
                                       </columns>
                                     </TableView>
                                  </children>
@@ -306,7 +305,7 @@
                                              </font>
                                           </Label>
                                           <DatePicker GridPane.columnIndex="1" />
-                                          <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
                                     <Label layoutX="24.0" layoutY="280.0" prefHeight="35.0" prefWidth="217.0" text="Agregar detalles">

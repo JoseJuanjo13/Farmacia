@@ -13,6 +13,8 @@ import modelo.DescuentoInteres;
 import modelo.Farmacia;
 import modelo.Presentacion;
 import modelo.Producto;
+import modelo.Proveedor;
+import modelo.TipoProveedor;
 
 public class Persistencia {
 
@@ -106,6 +108,29 @@ public class Persistencia {
 	}
 
 
+	public static void cargarDatosTipoProv(Farmacia farmacia) {
+		TipoProveedor tipoProveedor;
+		String selectTipoProv = "select * from tipoproveedor";
+
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(selectTipoProv);
+
+			while(rs.next()) {
+
+				tipoProveedor = new TipoProveedor(rs.getInt("idTipoProveedor"), rs.getString("tipoProveedor"));
+				//System.out.println(presentacion.toString());
+				farmacia.getListaTipoProveedores().add(tipoProveedor);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al cargar los tipo proveedores de la base de datos " + e.getMessage());
+		}
+
+	}
+
+
 	public static void cargarProductos(Farmacia farmacia) {
 		Producto producto;
 		String selectProducto = "select * from producto";
@@ -131,7 +156,7 @@ public class Persistencia {
 
 				farmacia.getListaProductos().add(producto);
 
-				System.out.println(producto.toString());
+				//System.out.println(producto.toString());
 			}
 
 		} catch (SQLException e) {
@@ -237,7 +262,7 @@ public class Persistencia {
 
 				farmacia.getListaClientes().add(cliente);
 
-				System.out.println(cliente.toString());
+				//System.out.println(cliente.toString());
 			}
 
 		} catch (SQLException e) {
@@ -296,5 +321,94 @@ public class Persistencia {
 
 	}
 
+
+	public static void guardarProveedor(String nit, String nombreProveedor, TipoProveedor tipoProveedor) {
+
+		try {
+			String insertProveedor = "insert into proveedor(nit, nombre_empresa, idTipoProveedor) "
+					+ "values (?, ?, ?);";
+
+			PreparedStatement pst = con.prepareStatement(insertProveedor);
+
+			pst.setString(1, nit);
+			pst.setString(2, nombreProveedor);
+			pst.setInt(3, tipoProveedor.getIdTipoProveedor());
+
+			pst.execute();
+			System.out.println("Proveedor almacenado correctamente en la base de datos");
+
+		} catch (Exception e) {
+			System.out.println("Error al almacenar el proveedor en la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void cargarDatosProveedor(Farmacia farmacia) {
+
+		Proveedor proveedor;
+		String selectProv = "select * from proveedor";
+		int tipoProv;
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(selectProv);
+
+			while(rs.next()) {
+				tipoProv = rs.getInt("idTipoProveedor");
+				TipoProveedor tipoProv_ = farmacia.obtenerTipoProveedor2(tipoProv);
+
+				proveedor = new Proveedor(rs.getString("nit"), rs.getString("nombre_empresa"), tipoProv_ );
+				//System.out.println(presentacion.toString());
+				farmacia.getListaProveedores().add(proveedor);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al cargar los proveedores de la base de datos " + e.getMessage());
+		}
+
+
+	}
+
+
+	public static void eliminarProveedor(String nit) {
+
+		try {
+			String deleteProveedor = "delete from proveedor where nit = " + nit;
+			Statement st = con.createStatement();
+
+			int flag = st.executeUpdate(deleteProveedor);
+
+			if(flag >= 0) System.out.println("Proveedor eliminado");
+
+		} catch (SQLException e) {
+			System.out.println("Error al eliminar el proveedor de la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void actualizarProveedor(String nit, String nombreProveedor, TipoProveedor tipoProv, String nitA) {
+
+		try {
+			String updateProveedor = "update proveedor set nit = ?, nombre_empresa = ?, idTipoProveedor = ? "
+					+ "where nit = ?;";
+
+			PreparedStatement pst = con.prepareStatement(updateProveedor);
+
+			pst.setString(1, nit);
+			pst.setString(2, nombreProveedor);
+			pst.setInt(3, tipoProv.getIdTipoProveedor());
+			pst.setString(4, nitA);
+
+			pst.execute();
+
+			System.out.println("Se actualizó el proveedor correctamente en la base de datos");
+
+		} catch (SQLException e) {
+			System.out.println("Error al actualizar el proveedor en la base de datos " + e.getMessage());
+		}
+
+	}
 
 }

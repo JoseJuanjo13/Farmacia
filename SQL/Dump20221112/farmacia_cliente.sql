@@ -41,7 +41,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (1,'12','2','2','2','2','2','2'),(1094973,'juan jose ','ortiz','barrio la patria','corrreo@gmail.com','313885','armenia','quindio');
+INSERT INTO `cliente` VALUES (1094913900,'rodrigo','perea','calle 7#14','rodrigo@gmail.com','32258896','armenia','quindio'),(1094913901,'maria','gonzales','calle 7#15','maria@gmail.com','32258897','armenia','quindio'),(1094913902,'fernando','correa','calle 7#16','fernando@gmail.com','32258898','armenia','quindio'),(1094913903,'sandra','ordoñez','calle 8#14','sandra@gmail.com','32258899','armenia','quindio'),(1094913904,'jose','orjuela','calle 1#14','jose@gmail.com','32258900','armenia','quindio'),(1094913905,'andres','quiñonez','calle 2#14','andres@gmail.com','32258901','armenia','quindio'),(1094913906,'diego','castro','calle 3#18','diego@gmail.com','32258902','armenia','quindio'),(1094913907,'jesus','molina','calle 5#19','jesus@gmail.com','32258902','armenia','quindio'),(1094913908,'mariana','becerra','calle 6#13','mariana@gmail.com','32258903','armenia','quindio');
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-12 14:57:55
+-- Dump completed on 2022-11-26 23:07:48

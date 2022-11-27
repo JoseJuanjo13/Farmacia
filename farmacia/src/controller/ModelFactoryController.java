@@ -2,12 +2,14 @@ package controller;
 
 import java.time.LocalDate;
 
+import modelo.Ciudad;
 import modelo.Cliente;
 import modelo.DescuentoInteres;
 import modelo.Farmacia;
 import modelo.Presentacion;
 import modelo.Producto;
 import modelo.Proveedor;
+import modelo.Sucursal;
 import modelo.TipoProveedor;
 import persistencia.Persistencia;
 
@@ -40,9 +42,11 @@ public class ModelFactoryController implements Runnable {
 		Persistencia.cargarDatosDescInte(farmacia);
 		Persistencia.cargarDatosPresen(farmacia);
 		Persistencia.cargarDatosTipoProv(farmacia);
+		Persistencia.cargarDatosCiudad(farmacia);
 		Persistencia.cargarProductos(farmacia);
 		Persistencia.cargarDatosCliente(farmacia);
 		Persistencia.cargarDatosProveedor(farmacia);
+		Persistencia.cargarDatosSucursal(farmacia);
 	}
 
 	public Farmacia getFarmacia() {
@@ -154,6 +158,40 @@ public class ModelFactoryController implements Runnable {
 
 		Persistencia.actualizarProveedor(nit, nombreProveedor, tipoProv, nitA);
 
+	}
+
+	public Sucursal crearSucursal(String nombre, String telefono, String nit, String ciudad) {
+
+		Proveedor proveedor = farmacia.obtenerProveedor(nit);
+		Ciudad ciudad_ = farmacia.obtenerCiudad2(ciudad);
+
+
+		Sucursal sucursal = farmacia.agregarSucursal(nombre, telefono, proveedor, ciudad_);
+
+		Persistencia.guardarSucursal(nombre, telefono, proveedor, ciudad_);
+
+		return sucursal;
+	}
+
+	public void actualizarSucursal(String nombre, String telefono, String nit, String ciudad, String nombre_) {
+
+		Proveedor proveedor = farmacia.obtenerProveedor(nit);
+		Ciudad ciudad_ = farmacia.obtenerCiudad2(ciudad);
+
+		farmacia.actualizarSucursal(nombre, telefono, proveedor, ciudad_, nombre_);
+
+		Persistencia.actualizarSucursal(nombre, telefono, proveedor, ciudad_, nombre_);
+
+	}
+
+	public boolean eliminarSucursal(String nombre) {
+
+		if (farmacia.eliminarSucursal(nombre)) {
+			Persistencia.eliminarSucursal(nombre);
+			return true;
+		}
+
+		return false;
 	}
 
 

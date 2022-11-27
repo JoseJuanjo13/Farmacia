@@ -23,9 +23,9 @@ DROP TABLE IF EXISTS `sucursal`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sucursal` (
-  `idsucursal` int NOT NULL,
+  `idsucursal` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
-  `telefono` int DEFAULT NULL,
+  `telefono` varchar(45) DEFAULT NULL,
   `nitProveedor` varchar(45) DEFAULT NULL,
   `idCiudad` int DEFAULT NULL,
   PRIMARY KEY (`idsucursal`),
@@ -33,7 +33,7 @@ CREATE TABLE `sucursal` (
   KEY `idCiudad_idx` (`idCiudad`),
   CONSTRAINT `idCiudad` FOREIGN KEY (`idCiudad`) REFERENCES `ciudad` (`idciudad`),
   CONSTRAINT `nitProveedor` FOREIGN KEY (`nitProveedor`) REFERENCES `proveedor` (`nit`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,7 @@ CREATE TABLE `sucursal` (
 
 LOCK TABLES `sucursal` WRITE;
 /*!40000 ALTER TABLE `sucursal` DISABLE KEYS */;
+INSERT INTO `sucursal` VALUES (1,'sucursal allergan','7455233','000235',1),(2,'sucursal Biogen','7455234','000236',1),(3,'sucursal Boehringer','7455235','000237',1),(4,'sucursal Bristol-Myers','7455236','000238',1),(5,'sucursal Gen-Far','7455237','000239',1),(6,'sucursal Medihealth','7455238','000240',1),(7,'sucursal Novafarma','7455240','000241',1),(8,'sucursal Pfizer','7455241','000242',1),(9,'sucursal Claro','7455242','000242',1),(10,'sucursal Instalacion','7455243','000244',1),(11,'prueba','7455244','000245',1);
 /*!40000 ALTER TABLE `sucursal` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-12 14:57:53
+-- Dump completed on 2022-11-26 23:07:49

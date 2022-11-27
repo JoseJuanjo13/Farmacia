@@ -3,9 +3,7 @@ package controller;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-
 import javax.swing.JOptionPane;
-
 import aplicacion.FarmaciaAplicacion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,16 +13,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import modelo.Ciudad;
 import modelo.Cliente;
 import modelo.DescuentoInteres;
 import modelo.Farmacia;
 import modelo.Presentacion;
 import modelo.Producto;
 import modelo.Proveedor;
+import modelo.Sucursal;
 import modelo.TipoProveedor;
 import persistencia.Persistencia;
 
@@ -90,10 +91,42 @@ public class ContenedorPrincipalController {
     @FXML
     private TableColumn<Proveedor, String> columnNitProveedor, columnNombreProveedor;
 
+    @FXML
+    private DatePicker fechaFactura;
+
+    @FXML
+    private ComboBox<String> boxCedulaCli;
+    ObservableList<String> listaCedula = FXCollections.observableArrayList();
+
+    @FXML
+    private TextField txtCodigoProd, txtUnidades;
+
+    private Label labelTotal, labelSubtotal, labelIVA;
+
+    private double acumTotal = 0, acumIVA = 0, acumTotalIVA = 0;
+
+    @FXML
+    private ComboBox<String> boxNitSucursal;
+    ObservableList<String> listaNit = FXCollections.observableArrayList();
+
+    @FXML
+    private ComboBox<String> boxCiudadSucursal;
+    ObservableList<String> listaCiudad = FXCollections.observableArrayList();
+
+    @FXML
+    private TextField txtNombreSucursal, txtTelSucursal;
+
+    @FXML
+    private TableView<Sucursal> tableViewSucursal;
+
+    @FXML
+    private TableColumn<Sucursal, String> columnNombreSucu, columnTelefonoSucu;
+
 
     private Producto productoSeleccionado;
     private Cliente clienteSeleccionado;
     private Proveedor proveedorSeleccionado;
+    private Sucursal sucursalSeleccionado;
 
 	ModelFactoryController modelFactoryController;
 	Farmacia farmacia;
@@ -103,6 +136,7 @@ public class ContenedorPrincipalController {
     ObservableList<Producto> listadoProductos = FXCollections.observableArrayList();
     ObservableList<Cliente> listadoClientes = FXCollections.observableArrayList();
     ObservableList<Proveedor> listadoProveedores = FXCollections.observableArrayList();
+    ObservableList<Sucursal> listadoSucursales = FXCollections.observableArrayList();
 
 	public ContenedorPrincipalController() {
 
@@ -129,6 +163,15 @@ public class ContenedorPrincipalController {
 		}
 		boxTipoProveedor.setItems(listaTipoProv);
 
+		for (Proveedor proveedor : farmacia.getListaProveedores()) {
+			listaNit.add(proveedor.getNit());
+		}
+		boxNitSucursal.setItems(listaNit);
+
+		for (Ciudad ciudad : farmacia.getListaCiudades()) {
+			listaCiudad.add(ciudad.getNombre());
+		}
+		boxCiudadSucursal.setItems(listaCiudad);
 
 		//producto
 		this.columnNombreProducto.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -168,15 +211,42 @@ public class ContenedorPrincipalController {
     	    	cargarCampos3();
     	    }
     	});
+
+	   	//sucursal
+	   	this.columnNombreSucu.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+	   	this.columnTelefonoSucu.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+
+	   	tableViewSucursal.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+    	    if (newSelection != null) {
+    	    	sucursalSeleccionado = newSelection;
+    	    	cargarCampos4();
+    	    }
+    	});
+
 	 }
 
 
-    private void cargarCampos3() {
+    private void cargarCampos4() {
+		if(sucursalSeleccionado != null)
+		{
+			txtNombreSucursal.setText(sucursalSeleccionado.getNombre());
+			txtTelSucursal.setText(sucursalSeleccionado.getTelefono());
+			boxNitSucursal.setValue(sucursalSeleccionado.getProveedor().getNit());
+			boxCiudadSucursal.setValue(sucursalSeleccionado.getCiudad().getNombre());
+
+		}else{
+			mostrarMensaje("Sucursal Seleccion", "Sucursal Seleccion", "NO se ha seleccionado ninguna Sucursal", AlertType.WARNING);
+		}
+
+	}
+
+
+	private void cargarCampos3() {
 		if(proveedorSeleccionado != null)
 		{
 	    	txtNitProveedor.setText(proveedorSeleccionado.getNit());
 	    	txtNombreProveedor.setText(proveedorSeleccionado.getNombreEmpresa());
-	    	boxTipoProveedor.setId(proveedorSeleccionado.getTipoProveedor().getTipoProveedor());
+	    	boxTipoProveedor.setValue(proveedorSeleccionado.getTipoProveedor().getTipoProveedor());
 
 		}else{
 			mostrarMensaje("Proveedor Seleccion", "Proveedor Seleccion", "NO se ha seleccionado ningún Proveedor", AlertType.WARNING);
@@ -215,8 +285,8 @@ public class ContenedorPrincipalController {
     	    	txtPrecioProducto.setText(precioD);
     	    	txtCantidadProducto.setText(cantidad);
     	    	dateFecVenciProducto.setValue(productoSeleccionado.getFechaVencimiento());
-    	    	boxDesInProducto.setId(productoSeleccionado.getDescuentoInteres().getTipo());
-    	    	boxPresenProducto.setId(productoSeleccionado.getPresentacion().getNombrePresentacion());
+    	    	boxDesInProducto.setValue(productoSeleccionado.getDescuentoInteres().getTipo());
+    	    	boxPresenProducto.setValue(productoSeleccionado.getPresentacion().getNombrePresentacion());
 
     		}else{
     			mostrarMensaje("Producto Seleccion", "Producto Seleccion", "NO se ha seleccionado ningún Producto", AlertType.WARNING);
@@ -621,6 +691,140 @@ public class ContenedorPrincipalController {
  		return false;
 }
 
+	//------------------------------------------------- SUCURSAL -----------------------------------------------------------------
+
+    @FXML
+    void crearSucursal(ActionEvent event) {
+
+       	String nombre = txtNombreSucursal.getText();
+    	String telefono = txtTelSucursal.getText();
+    	String nit = boxNitSucursal.getValue();
+    	String ciudad = boxCiudadSucursal.getValue();
+
+
+    	if(verificarDatosS(nombre, telefono, nit, ciudad)){
+    		if (farmacia.obtenerSucursal(nombre) != null) {
+    			mostrarMensaje("Notificacion Usuario", "Sucursal No Registrado", "La sucursal se encuentra registrado", AlertType.WARNING);
+			}else{
+        		Sucursal sucursal;
+        		try {
+        			sucursal = modelFactoryController.crearSucursal(nombre, telefono, nit, ciudad);
+    				if (sucursal != null) {
+    					listadoSucursales.add(0, sucursal);
+    					mostrarMensaje("Notificacion Usuario", "Sucursal Registrado", "La Sucursal ha sido registrado", AlertType.INFORMATION);
+    					limpiarRegistros();
+    				}else{
+    					mostrarMensaje("Notificacion Usuario", "Sucursal No Registrado", "La Sucursal no ha sido registrado", AlertType.WARNING);
+    				}
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			}
+    		}
+    	}
+
+    }
+
+
+	@FXML
+    void actualizarSucursal(ActionEvent event) {
+
+       	String nombre = txtNombreSucursal.getText();
+    	String telefono = txtTelSucursal.getText();
+    	String nit = boxNitSucursal.getValue();
+    	String ciudad = boxCiudadSucursal.getValue();
+
+		if(sucursalSeleccionado != null){
+			if(verificarDatosS(nombre, telefono, nit, ciudad))
+			{
+				try {
+					modelFactoryController.actualizarSucursal(nombre, telefono, nit, ciudad, sucursalSeleccionado.getNombre());
+					sucursalSeleccionado.setNombre(nombre);
+					sucursalSeleccionado.setTelefono(telefono);
+					Proveedor proveedor_ = farmacia.obtenerProveedor(nit);
+					sucursalSeleccionado.setProveedor(proveedor_);
+					Ciudad ciudad_ = farmacia.obtenerCiudad2(ciudad);
+					sucursalSeleccionado.setCiudad(ciudad_);
+
+					tableViewSucursal.refresh();
+					limpiarRegistros();
+
+					mostrarMensaje("Notificacion Usuario", "Sucursal Actualizado", "La Sucursal ha sido actualizado exitosamente", AlertType.INFORMATION);
+					//limpiarRegistros();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}else {
+			mostrarMensaje("Sucursal Seleccion", "Sucursal Seleccion", "NO se ha seleccionado ninguna Sucursal", AlertType.WARNING);
+		}
+
+    }
+
+    @FXML
+    void eliminarSucursal(ActionEvent event) {
+
+    	if(sucursalSeleccionado != null){
+			 int showConfirmDialog = JOptionPane.showConfirmDialog(null, "Desea eliminar la sucursal "+ sucursalSeleccionado.getNombre());
+			 if(showConfirmDialog == 0){
+				 try {
+					if(modelFactoryController.eliminarSucursal(sucursalSeleccionado.getNombre())){
+						mostrarMensaje("Sucursal Eliminado", "Sucursal Eliminado", "La Sucursal ha sido eliminada", AlertType.WARNING);
+					 }else{
+						 mostrarMensaje("Sucursal Seleccion", "Sucursal Seleccion", "NO se ha seleccionado ninguna Sucursal", AlertType.INFORMATION);
+					 }
+				 listadoSucursales.remove(sucursalSeleccionado);
+				 limpiarRegistros();
+				 tableViewSucursal.refresh();;
+				 } catch (Exception e){
+					e.printStackTrace();
+				 }
+			}
+		}else{
+			mostrarMensaje("Sucursal Seleccion", "Sucursal Seleccion", "NO se ha seleccionado ninguna Sucursal", AlertType.WARNING);
+		}
+
+    }
+
+    private boolean verificarDatosS(String nombre, String telefono, String nit, String ciudad) {
+    	String notificacion = "";
+
+     	if (nombre== null || nombre.equals("")) {
+			notificacion += "El nombre es invalido\n";
+		}
+ 		if(telefono == null || telefono.equals("")){
+ 			notificacion += "El telefono es invalido\n";
+ 		}
+ 		if(nit == null || nit.equals("")){
+ 			notificacion += "El nit es invalido\n";
+ 		}
+ 		if(telefono == null || telefono.equals("")){
+ 			notificacion += "La ciudad es invalida\n";
+ 		}
+ 		if(notificacion.equals("")){
+ 			return true;
+ 		}
+
+ 		mostrarMensaje("Notificacion Usuario", "Informacion de la sucursal es invalida", notificacion, AlertType.WARNING);
+
+ 		return false;
+ 	}
+
+	//------------------------------------------------- FACTURA -----------------------------------------------------------------
+
+    @FXML
+    void agregarDetalleFac(ActionEvent event) {
+
+    }
+
+	@FXML
+    void eliminarDetalleFac(ActionEvent event) {
+
+    }
+
+    @FXML
+    void crearFactura(ActionEvent event) {
+
+    }
 
 	private void mostrarMensaje(String titulo,String header,String contenido,AlertType alertType) {
 		Alert alert = new Alert(alertType);
@@ -647,6 +851,18 @@ public class ContenedorPrincipalController {
 		tableViewProveedor.getItems().clear();
 		tableViewProveedor.setItems(getProveedores());
 
+		//sucursal
+		tableViewSucursal.getItems().clear();
+		tableViewSucursal.setItems(getSucursales());
+
+	}
+
+
+	private ObservableList<Sucursal> getSucursales() {
+		// TODO Auto-generated method stub
+		listadoSucursales.clear();
+		listadoSucursales.addAll(farmacia.getListaSucursales());
+		return listadoSucursales;
 	}
 
 

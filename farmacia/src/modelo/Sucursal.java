@@ -12,12 +12,27 @@ public class Sucursal implements Serializable{
 	private int idSucursal;
 	private String nombre;
 	private String telefono;
-	private String direccion;
+	private Proveedor proveedor;
 	private Ciudad ciudad;
 
 	public Sucursal()
 	{
 
+	}
+
+	public Sucursal(int idSucursal, String nombre, String telefono, Proveedor proveedor, Ciudad ciudad) {
+		this.idSucursal = idSucursal;
+		this.nombre = nombre;
+		this.telefono = telefono;
+		this.proveedor = proveedor;
+		this.ciudad = ciudad;
+	}
+
+	public Sucursal(String nombre, String telefono, Proveedor proveedor, Ciudad ciudad) {
+		this.nombre = nombre;
+		this.telefono = telefono;
+		this.proveedor = proveedor;
+		this.ciudad = ciudad;
 	}
 
 	public int getIdSucursal() {
@@ -44,12 +59,12 @@ public class Sucursal implements Serializable{
 		this.telefono = telefono;
 	}
 
-	public String getDireccion() {
-		return direccion;
+	public Proveedor getProveedor() {
+		return proveedor;
 	}
 
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+	public void setProveedor(Proveedor proveedor) {
+		this.proveedor = proveedor;
 	}
 
 	public Ciudad getCiudad() {
@@ -59,6 +74,13 @@ public class Sucursal implements Serializable{
 	public void setCiudad(Ciudad ciudad) {
 		this.ciudad = ciudad;
 	}
+
+	@Override
+	public String toString() {
+		return "Sucursal [idSucursal=" + idSucursal + ", nombre=" + nombre + ", telefono=" + telefono + ", proveedor="
+				+ proveedor + ", ciudad=" + ciudad + "]";
+	}
+
 
 
 }

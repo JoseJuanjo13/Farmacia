@@ -19,6 +19,8 @@ public class Farmacia implements Serializable {
 	private ArrayList<Cliente> listaClientes = new ArrayList<>();
 	private ArrayList<TipoProveedor> listaTipoProveedores = new ArrayList<>();
 	private ArrayList<Proveedor> listaProveedores = new ArrayList<>();
+	private ArrayList<Ciudad> listaCiudades = new ArrayList<>();
+	private ArrayList<Sucursal> listaSucursales = new ArrayList<>();
 
 	public Farmacia(){
 
@@ -77,6 +79,22 @@ public class Farmacia implements Serializable {
 
 	public void setListaProveedores(ArrayList<Proveedor> listaProveedores) {
 		this.listaProveedores = listaProveedores;
+	}
+
+	public ArrayList<Ciudad> getListaCiudades() {
+		return listaCiudades;
+	}
+
+	public void setListaCiudades(ArrayList<Ciudad> listaCiudades) {
+		this.listaCiudades = listaCiudades;
+	}
+
+	public ArrayList<Sucursal> getListaSucursales() {
+		return listaSucursales;
+	}
+
+	public void setListaSucursales(ArrayList<Sucursal> listaSucursales) {
+		this.listaSucursales = listaSucursales;
 	}
 
 	public Producto agregarProducto(String idProducto, String nombre, String precio, String cantidad, LocalDate fechaVencimiento,
@@ -263,7 +281,7 @@ public class Farmacia implements Serializable {
 		Proveedor proveedor = obtenerProveedor(nit);
 
 		if(proveedor != null) {
-			getListaProveedores().remove(nit);
+			getListaProveedores().remove(proveedor);
 			proveedorEliminado = true;
 		}
 		return proveedorEliminado;
@@ -284,5 +302,76 @@ public class Farmacia implements Serializable {
 		return proveedor;
 
 	}
+
+	public Producto obtenerMedicamento(String codigoProd) {
+		for (Producto producto : listaProductos) {
+			if(producto.getIdProducto().equalsIgnoreCase(codigoProd))
+				return producto;
+		}
+		return null;
+	}
+
+
+	public Sucursal obtenerSucursal(String sucursalNombre) {
+		for (Sucursal sucursal : listaSucursales) {
+			if(sucursal.getNombre().equals(sucursalNombre))
+				return sucursal;
+		}
+		return null;
+	}
+
+	public Ciudad obtenerCiudad(int ciudad_) {
+		for (Ciudad ciudad : listaCiudades) {
+			if(ciudad.getIdCiudad() == ciudad_)
+				return ciudad;
+		}
+		return null;
+	}
+
+	public Ciudad obtenerCiudad2(String ciudad_) {
+		for (Ciudad ciudad : listaCiudades) {
+			if(ciudad.getNombre().equalsIgnoreCase(ciudad_))
+				return ciudad;
+		}
+		return null;
+	}
+
+	public Sucursal agregarSucursal(String nombre, String telefono, Proveedor proveedor, Ciudad ciudad_) {
+
+		Sucursal sucursal = new Sucursal(nombre, telefono, proveedor, ciudad_);
+
+		listaSucursales.add(sucursal);
+
+		return sucursal;
+	}
+
+	public Sucursal actualizarSucursal(String nombre, String telefono, Proveedor proveedor, Ciudad ciudad,
+			String nombre_) {
+
+		Sucursal sucursal = obtenerSucursal(nombre_);
+
+		if(sucursal != null) {
+			sucursal.setNombre(nombre);
+			sucursal.setTelefono(telefono);
+			sucursal.setProveedor(proveedor);
+			sucursal.setCiudad(ciudad);
+		}
+
+		return sucursal;
+
+	}
+
+	public boolean eliminarSucursal(String nombre) {
+		boolean sucursalEliminado = false;
+		Sucursal sucursal = obtenerSucursal(nombre);
+
+		if(sucursal != null) {
+			getListaSucursales().remove(sucursal);
+			sucursalEliminado = true;
+		}
+		return sucursalEliminado;
+	}
+
+
 
 }

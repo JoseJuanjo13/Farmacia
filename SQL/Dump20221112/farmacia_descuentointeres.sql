@@ -36,7 +36,7 @@ CREATE TABLE `descuentointeres` (
 
 LOCK TABLES `descuentointeres` WRITE;
 /*!40000 ALTER TABLE `descuentointeres` DISABLE KEYS */;
-INSERT INTO `descuentointeres` VALUES (1,'descuento',2000),(2,'descuento2',3000);
+INSERT INTO `descuentointeres` VALUES (1,'Descuento 1000',1000),(2,'Descuento 3000',3000),(3,'Descuento 5000',5000),(4,'Descuento 10000',10000),(5,'Descuento 15000',15000);
 /*!40000 ALTER TABLE `descuentointeres` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-12 14:57:53
+-- Dump completed on 2022-11-26 23:07:48

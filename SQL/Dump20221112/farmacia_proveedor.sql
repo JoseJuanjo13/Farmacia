@@ -38,7 +38,7 @@ CREATE TABLE `proveedor` (
 
 LOCK TABLES `proveedor` WRITE;
 /*!40000 ALTER TABLE `proveedor` DISABLE KEYS */;
-INSERT INTO `proveedor` VALUES ('88774577','regenteros 2',2),('998874','quimicos ltda',1),('999888','fabricamos rdta',4);
+INSERT INTO `proveedor` VALUES ('000235','Allergan',3),('000236','Biogen de Colombia S.A',3),('000237','Boehringer Ingelheim S.A',3),('000238','Bristol-Myers Squibb de Colombia S.A',3),('000239','Gen-Far',3),('000240','Laboratorios Medihealth',3),('000241','Laboratorios Novafarma',3),('000242','Pfizer',3),('000243','Claro',1),('000244','Servicio especializado',2),('000245','Tecnico mantenimiento',2),('000246','Unipharma',3);
 /*!40000 ALTER TABLE `proveedor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-12 14:57:53
+-- Dump completed on 2022-11-26 23:07:48

@@ -35,7 +35,7 @@ CREATE TABLE `presentacion` (
 
 LOCK TABLES `presentacion` WRITE;
 /*!40000 ALTER TABLE `presentacion` DISABLE KEYS */;
-INSERT INTO `presentacion` VALUES (1,'tabletas');
+INSERT INTO `presentacion` VALUES (1,'Tableta'),(2,'Pastillas'),(3,'Capsula'),(4,'Pildoras'),(5,'Jarabe'),(6,'Granulados'),(7,'Pomada'),(8,'Inyectable');
 /*!40000 ALTER TABLE `presentacion` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-12 14:57:53
+-- Dump completed on 2022-11-26 23:07:48

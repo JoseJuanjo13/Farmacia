@@ -44,7 +44,7 @@ CREATE TABLE `producto` (
 
 LOCK TABLES `producto` WRITE;
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
-INSERT INTO `producto` VALUES ('00125','producto',2000,4,NULL,NULL,'2020-11-11'),('00126','prueba',20000,2,1,1,'2023-11-04'),('333','2',2,2,2,1,'2022-11-12'),('444','4',4,4,1,1,'2023-11-04');
+INSERT INTO `producto` VALUES ('00125','Acetaminofen',5000,20,1,1,'2023-11-11'),('00126','Simvastatina',6000,20,1,1,'2023-12-11'),('00127','Aspirina',4000,20,1,3,'2023-11-11'),('00128','Omeprazol',3500,20,1,1,'2023-11-11'),('00129','Lexotiroxina sódica',7000,20,1,1,'2023-11-11'),('00130','Ramipril',6000,20,1,1,'2023-11-11'),('00131','Amlodipina',5000,20,1,1,'2023-11-11'),('00132','Atorvastatina',9000,20,1,1,'2023-11-11'),('00133','Salbutamol',8500,20,1,1,'2023-11-11');
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-12 14:57:54
+-- Dump completed on 2022-11-26 23:07:49

@@ -1,5 +1,6 @@
 package persistencia;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JFrame;
 import controller.ModelFactoryController;
 import modelo.Ciudad;
 import modelo.Cliente;
@@ -17,6 +22,12 @@ import modelo.Producto;
 import modelo.Proveedor;
 import modelo.Sucursal;
 import modelo.TipoProveedor;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class Persistencia {
 
@@ -511,8 +522,9 @@ public class Persistencia {
 
 
 	public static void eliminarSucursal(String nombre) {
+
 		try {
-			String deleteSucursal = "delete from sucursal where nombre = " + nombre;
+			String deleteSucursal = "delete from sucursal where nombre = '" + nombre + "'";
 			Statement st = con.createStatement();
 
 			int flag = st.executeUpdate(deleteSucursal);
@@ -523,6 +535,40 @@ public class Persistencia {
 			System.out.println("Error al eliminar la sucursal de la base de datos " + e.getMessage());
 		}
 
+	}
+	
+	private static void cargarReporte(String nombreParametro, String valorParametro, String nombreArchivoJasper) {
+		System.out.println(nombreParametro + " " + valorParametro + " " + nombreArchivoJasper);
+		try {
+			JasperReport reporte = null;
+			File file = new File("src/resource/"+nombreArchivoJasper+".jasper");
+
+			Map<String, Object> parametro = new HashMap<>();
+			parametro.put(nombreParametro, valorParametro);
+			
+			// Cargando el archivo jasper
+			reporte = (JasperReport) JRLoader.loadObject(file);
+
+			// Generando la información del reporte
+			JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, con);
+			
+			// Vista del reporte
+			JasperViewer view = new JasperViewer(jprint, false);
+			
+			JFrame.setDefaultLookAndFeelDecorated(true);
+			
+			view.setVisible(true);
+			
+		} catch (JRException e) {
+			System.out.println("Error al generar reporte " + e);
+		} catch(Exception e) {
+			System.out.println("Error " + e);			
+		}
+	}
+	
+	public static void generarReporteCliente(String nombre) {	
+		String filtro = "%"+ nombre +"%";
+		cargarReporte("nombre", filtro, "ReporteSimple1");
 	}
 
 }

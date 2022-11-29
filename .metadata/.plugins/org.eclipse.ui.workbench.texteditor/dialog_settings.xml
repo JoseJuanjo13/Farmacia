@@ -2,12 +2,17 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="eliminar" key="selection"/>
+		<item value="dateFec" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="dateFec"/>
+			<item value="rbtReporte"/>
+			<item value="rbtReporteCliente"/>
+			<item value="btnGenerarReporte"/>
+			<item value="generarReporte"/>
 			<item value="eliminar"/>
 			<item value="obtenerProducto"/>
 			<item value="listadoProductos"/>
@@ -16,10 +21,10 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="336" key="DIALOG_WIDTH"/>
-		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
-		<item value="454" key="DIALOG_HEIGHT"/>
-		<item value="1020" key="DIALOG_X_ORIGIN"/>
-		<item value="221" key="DIALOG_Y_ORIGIN"/>
+		<item value="284" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="391" key="DIALOG_HEIGHT"/>
+		<item value="1129" key="DIALOG_X_ORIGIN"/>
+		<item value="689" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

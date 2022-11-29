@@ -50,4 +50,13 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="modelo.Proveedor"/>
 <fullyQualifiedTypeName name="modelo.TipoProveedor"/>
+<fullyQualifiedTypeName name="org.springframework.ui.jasperreports.JasperReportsUtils"/>
+<fullyQualifiedTypeName name="net.sf.jasperreports.engine.JasperReport"/>
+<fullyQualifiedTypeName name="net.sf.jasperreports.engine.util.JRLoader"/>
+<fullyQualifiedTypeName name="net.sf.jasperreports.engine.JasperFillManager"/>
+<fullyQualifiedTypeName name="net.sf.jasperreports.view.JasperViewer"/>
+<fullyQualifiedTypeName name="net.sf.jasperreports.engine.JasperPrint"/>
+<fullyQualifiedTypeName name="net.sf.jasperreports.engine.JRException"/>
+<fullyQualifiedTypeName name="javafx.scene.control.RadioButton"/>
+<fullyQualifiedTypeName name="com.lowagie.text.Document"/>
 </qualifiedTypeNameHistroy>

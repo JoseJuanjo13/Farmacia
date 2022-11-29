@@ -2,6 +2,21 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.47.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/mysql-connector-java-5.1.47.jar"/>
+	<classpathentry kind="lib" path="lib/commons-beanutils-1.8.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-digester-1.7.jar"/>
+	<classpathentry kind="lib" path="lib/commons-javaflow-20060411.jar"/>
+	<classpathentry kind="lib" path="lib/groovy-all-1.5.5.jar"/>
+	<classpathentry kind="lib" path="lib/iReport-nb-3.5.2.nbm"/>
+	<classpathentry kind="lib" path="lib/iText-2.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jasperreports-3.5.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jasperreports-components-plugin-nb-3.5.2.nbm"/>
+	<classpathentry exported="true" kind="lib" path="lib/jasperreports-extensions-plugin-nb-3.5.2.nbm"/>
+	<classpathentry kind="lib" path="lib/jasperserver-plugin-nb-3.5.2.nbm"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.15.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.12.jar"/>
+	<classpathentry kind="lib" path="lib/spring.jar"/>
+	<classpathentry kind="lib" path="E:/1.Universidad/7 semestre/Bases de datos/mysql-connector-j-8.0.31.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -465,6 +465,34 @@
                   </AnchorPane>
               </content>
             </Tab>
+            <Tab text="Generar reportes">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutY="-3.0" prefHeight="645.0" prefWidth="1169.0">
+                           <children>
+                              <RadioButton fx:id="rbtReporteCliente" layoutX="38.0" layoutY="134.0" mnemonicParsing="false" text="Reporte clientes" />
+                              <Button id="btnGenerarReporte" layoutX="38.0" layoutY="323.0" mnemonicParsing="false" onAction="#generarReporte" prefHeight="45.0" prefWidth="138.0" text="Generar reporte" />
+                              <Label layoutX="38.0" layoutY="37.0" prefHeight="35.0" prefWidth="217.0" text="Generar reportes">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Text layoutX="38.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccione el reporte que desea generar:" wrappingWidth="329.9921875">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <RadioButton id="rbtReporteFactura" layoutX="38.0" layoutY="171.0" mnemonicParsing="false" text="Reporte facturas" />
+                              <RadioButton id="rbtReporteProveedor" layoutX="38.0" layoutY="205.0" mnemonicParsing="false" text="Reporte proveedor" />
+                              <RadioButton id="rbtReporteSucursal" layoutX="38.0" layoutY="237.0" mnemonicParsing="false" text="Reporte sucursal" />
+                              <RadioButton id="rbtReporteProducto" layoutX="38.0" layoutY="273.0" mnemonicParsing="false" text="Reporte producto" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>

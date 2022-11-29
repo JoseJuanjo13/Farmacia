@@ -1,0 +1,574 @@
+package persistencia;
+
+import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JFrame;
+
+import co.edu.uniquindio.litografia.persistencia.JRException;
+import co.edu.uniquindio.litografia.persistencia.JasperPrint;
+import co.edu.uniquindio.litografia.persistencia.JasperReport;
+import co.edu.uniquindio.litografia.persistencia.JasperViewer;
+import controller.ModelFactoryController;
+import modelo.Ciudad;
+import modelo.Cliente;
+import modelo.DescuentoInteres;
+import modelo.Farmacia;
+import modelo.Presentacion;
+import modelo.Producto;
+import modelo.Proveedor;
+import modelo.Sucursal;
+import modelo.TipoProveedor;
+
+public class Persistencia {
+
+	ModelFactoryController modelFactoryController;
+	Farmacia farmacia;
+
+	static ConexionSQL conexion = new ConexionSQL();
+	static Connection con = conexion.conexion();
+
+	public Persistencia(){
+		modelFactoryController = ModelFactoryController.getInstance();
+		farmacia = modelFactoryController.getFarmacia();
+	}
+
+
+	public static void guardarProducto(String idProducto, String nombre, double precio_, int cantidad_, LocalDate fechaVencimiento,
+			DescuentoInteres descinte_, Presentacion presenta_) {
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String fechaVencimiento_ = fechaVencimiento.format(formatter);
+
+		try {
+			String insertProducto = "insert into producto(id_producto, nombre, precio, cantidad, idDescInt, idPresentacion, fechaVencimiento) "
+					 + "values (?, ?, ?, ?, ?, ?, ?)";
+
+			PreparedStatement pst = con.prepareStatement(insertProducto);
+
+			pst.setString(1, idProducto);
+			pst.setString(2, nombre);
+			pst.setDouble(3, precio_);
+			pst.setInt(4, cantidad_);
+			pst.setInt(5, descinte_.getIdDescInt());
+			pst.setInt(6, presenta_.getIdPresentacion());
+			pst.setString(7, fechaVencimiento_);
+
+			pst.execute();
+			System.out.println("Producto almacenado correctamente en la base de datos");
+
+		} catch (Exception e) {
+			System.out.println("Error al almacenar el producto en la base de datos " + e.getMessage());
+		}
+
+
+	}
+
+
+	public static void cargarDatosDescInte(Farmacia farmacia) {
+		DescuentoInteres descuentoInteres;
+		String selectDescInte = "select * from descuentointeres";
+
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(selectDescInte);
+
+			while(rs.next()) {
+
+				descuentoInteres = new DescuentoInteres(rs.getInt("idDescInt"), rs.getString("tipo"), rs.getDouble("cantidad"));
+				//System.out.println(descuentoInteres.toString());
+				farmacia.getListaDescuentoInteres().add(descuentoInteres);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al cargar el desc/int de la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void cargarDatosPresen(Farmacia farmacia) {
+
+		Presentacion presentacion;
+		String selectPresentacion = "select * from presentacion";
+
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(selectPresentacion);
+
+			while(rs.next()) {
+
+				presentacion = new Presentacion(rs.getInt("idPresentacion"), rs.getString("nombrePresentacion"));
+				//System.out.println(presentacion.toString());
+				farmacia.getListaPresentaciones().add(presentacion);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al cargar la presentacion de la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void cargarDatosTipoProv(Farmacia farmacia) {
+		TipoProveedor tipoProveedor;
+		String selectTipoProv = "select * from tipoproveedor";
+
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(selectTipoProv);
+
+			while(rs.next()) {
+
+				tipoProveedor = new TipoProveedor(rs.getInt("idTipoProveedor"), rs.getString("tipoProveedor"));
+				//System.out.println(presentacion.toString());
+				farmacia.getListaTipoProveedores().add(tipoProveedor);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al cargar los tipo proveedores de la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void cargarProductos(Farmacia farmacia) {
+		Producto producto;
+		String selectProducto = "select * from producto";
+		int presentacion, descInt;
+		LocalDate fechaVencimiento_;
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(selectProducto);
+
+			while(rs.next()) {
+
+				presentacion = rs.getInt("idPresentacion");
+				descInt = rs.getInt("idDescInt");
+				fechaVencimiento_ = rs.getDate("fechaVencimiento").toLocalDate();
+
+				Presentacion presentacion_ = farmacia.obtenerPresen2(presentacion);
+				DescuentoInteres descint_ = farmacia.obtenerDescInte2(descInt);
+
+				producto = new Producto(rs.getString("id_producto"), rs.getString("nombre"),
+						rs.getDouble("precio"), rs.getInt("cantidad"), fechaVencimiento_,
+						presentacion_, descint_);
+
+				farmacia.getListaProductos().add(producto);
+
+				//System.out.println(producto.toString());
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al cargar los productos de la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void eliminarProducto(String idProducto) {
+
+		try {
+			String deleteProducto = "delete from producto where id_producto = " + idProducto;
+			Statement st = con.createStatement();
+
+			int flag = st.executeUpdate(deleteProducto);
+
+			if(flag >= 0) System.out.println("Producto eliminado");
+
+		} catch (SQLException e) {
+			System.out.println("Error al eliminar el producto de la base de datos " + e.getMessage());
+		}
+	}
+
+
+	public static void actualizarProducto(String idProducto, String nombre, double precio_, int cantidad_,
+			LocalDate fechaVencimiento, DescuentoInteres descinte_, Presentacion presenta_, String idP) {
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String fechaVencimiento_ = fechaVencimiento.format(formatter);
+
+		try {
+			String updateProducto = "update producto set id_producto = ?, nombre = ?, "
+					+ "precio = ?, cantidad = ?, idDescInt = ?, idPresentacion = ?,"
+					+ "fechaVencimiento = ? where id_producto = ?";
+
+			PreparedStatement pst = con.prepareStatement(updateProducto);
+
+			pst.setString(1, idProducto);
+			pst.setString(2, nombre);
+			pst.setDouble(3, precio_);
+			pst.setInt(4, cantidad_);
+			pst.setInt(5, descinte_.getIdDescInt());
+			pst.setInt(6, presenta_.getIdPresentacion());
+			pst.setString(7, fechaVencimiento_);
+			pst.setString(8, idP);
+
+			pst.execute();
+
+			System.out.println("Se actualizó el producto correctamente en la base de datos");
+
+		} catch (SQLException e) {
+			System.out.println("Error al actualizar el producto en la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void guardarCliente(String cedula, String nombre, String apellido, String direccion, String telefono, String email,
+			String ciudad, String depto) {
+
+		try {
+			String insertCliente = "insert into cliente(cedula, nombre, apellido, direccion, correo, telefono, ciudad, depto) "
+						+ "values (?, ?, ?, ?, ?, ?, ?, ?);";
+
+			PreparedStatement pst = con.prepareStatement(insertCliente);
+
+			pst.setString(1, cedula);
+			pst.setString(2, nombre);
+			pst.setString(3, apellido);
+			pst.setString(4, direccion);
+			pst.setString(5, email);
+			pst.setString(6, telefono);
+			pst.setString(7, ciudad);
+			pst.setString(8, depto);
+
+			pst.execute();
+			System.out.println("Cliente almacenado correctamente en la base de datos");
+
+		} catch (Exception e) {
+			System.out.println("Error al almacenar el cliente en la base de datos " + e.getMessage());
+		}
+
+
+	}
+
+
+	public static void cargarDatosCliente(Farmacia farmacia) {
+
+		Cliente cliente;
+		String selectCliente = "select * from cliente";
+
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(selectCliente);
+
+			while(rs.next()) {
+
+				cliente = new Cliente(rs.getString("cedula"), rs.getString("nombre"),rs.getString("apellido"),
+						rs.getString("direccion"), rs.getString("telefono"), rs.getString("correo"),
+						rs.getString("ciudad"),rs.getString("depto"));
+
+				farmacia.getListaClientes().add(cliente);
+
+				//System.out.println(cliente.toString());
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al cargar los clientes de la base de datos " + e.getMessage());
+		}
+
+
+	}
+
+
+	public static void eliminarCliente(String cedula) {
+
+		try {
+			String deleteCliente = "delete from cliente where cedula = " + cedula;
+			Statement st = con.createStatement();
+
+			int flag = st.executeUpdate(deleteCliente);
+
+			if(flag >= 0) System.out.println("Cliente eliminado");
+
+		} catch (SQLException e) {
+			System.out.println("Error al eliminar el cliente de la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void actualizarCliente(String cedula, String nombre, String apellido, String direccion,
+			String telefono, String email, String ciudad, String depto, String cedu) {
+
+
+		try {
+			String updateCliente = "update cliente set cedula = ?, nombre = ?, apellido = ?, direccion = ?,"
+					+ " correo = ?, telefono = ?, ciudad = ?, depto = ?"
+					+ "where cedula = ?";
+
+			PreparedStatement pst = con.prepareStatement(updateCliente);
+
+			pst.setString(1, cedula);
+			pst.setString(2, nombre);
+			pst.setString(3, apellido);
+			pst.setString(4, direccion);
+			pst.setString(5, email);
+			pst.setString(6, telefono);
+			pst.setString(7, ciudad);
+			pst.setString(8, depto);
+			pst.setString(9, cedu);
+
+			pst.execute();
+
+			System.out.println("Se actualizó el cliente correctamente en la base de datos");
+
+		} catch (SQLException e) {
+			System.out.println("Error al actualizar el cliente en la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void guardarProveedor(String nit, String nombreProveedor, TipoProveedor tipoProveedor) {
+
+		try {
+			String insertProveedor = "insert into proveedor(nit, nombre_empresa, idTipoProveedor) "
+					+ "values (?, ?, ?);";
+
+			PreparedStatement pst = con.prepareStatement(insertProveedor);
+
+			pst.setString(1, nit);
+			pst.setString(2, nombreProveedor);
+			pst.setInt(3, tipoProveedor.getIdTipoProveedor());
+
+			pst.execute();
+			System.out.println("Proveedor almacenado correctamente en la base de datos");
+
+		} catch (Exception e) {
+			System.out.println("Error al almacenar el proveedor en la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void cargarDatosProveedor(Farmacia farmacia) {
+
+		Proveedor proveedor;
+		String selectProv = "select * from proveedor";
+		int tipoProv;
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(selectProv);
+
+			while(rs.next()) {
+				tipoProv = rs.getInt("idTipoProveedor");
+				TipoProveedor tipoProv_ = farmacia.obtenerTipoProveedor2(tipoProv);
+
+				proveedor = new Proveedor(rs.getString("nit"), rs.getString("nombre_empresa"), tipoProv_ );
+				//System.out.println(presentacion.toString());
+				farmacia.getListaProveedores().add(proveedor);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al cargar los proveedores de la base de datos " + e.getMessage());
+		}
+
+
+	}
+
+
+	public static void eliminarProveedor(String nit) {
+
+		try {
+			String deleteProveedor = "delete from proveedor where nit = " + nit;
+			Statement st = con.createStatement();
+
+			int flag = st.executeUpdate(deleteProveedor);
+
+			if(flag >= 0) System.out.println("Proveedor eliminado");
+
+		} catch (SQLException e) {
+			System.out.println("Error al eliminar el proveedor de la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void actualizarProveedor(String nit, String nombreProveedor, TipoProveedor tipoProv, String nitA) {
+
+		try {
+			String updateProveedor = "update proveedor set nit = ?, nombre_empresa = ?, idTipoProveedor = ? "
+					+ "where nit = ?;";
+
+			PreparedStatement pst = con.prepareStatement(updateProveedor);
+
+			pst.setString(1, nit);
+			pst.setString(2, nombreProveedor);
+			pst.setInt(3, tipoProv.getIdTipoProveedor());
+			pst.setString(4, nitA);
+
+			pst.execute();
+
+			System.out.println("Se actualizó el proveedor correctamente en la base de datos");
+
+		} catch (SQLException e) {
+			System.out.println("Error al actualizar el proveedor en la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void cargarDatosCiudad(Farmacia farmacia) {
+		Ciudad ciudad;
+		String selectCiudad = "select * from ciudad";
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(selectCiudad);
+
+			while(rs.next()) {
+				ciudad = new Ciudad(rs.getInt("idciudad"), rs.getString("nombre"));
+				//System.out.println(presentacion.toString());
+				farmacia.getListaCiudades().add(ciudad);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al cargar las ciudades de la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void cargarDatosSucursal(Farmacia farmacia) {
+		Sucursal sucursal;
+		String selectSucursal = "select * from sucursal";
+		String prov; int ciudad_;
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(selectSucursal);
+
+			while(rs.next()) {
+				prov = rs.getString("nitProveedor");
+				ciudad_ = rs.getInt("idCiudad");
+				Proveedor proveedor = farmacia.obtenerProveedor(prov);
+				Ciudad ciudad = farmacia.obtenerCiudad(ciudad_);
+
+				sucursal = new Sucursal(rs.getInt("idsucursal"), rs.getString("nombre"), rs.getString("telefono"), proveedor, ciudad);
+				//System.out.println(presentacion.toString());
+				farmacia.getListaSucursales().add(sucursal);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al cargar las sucursales de la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void guardarSucursal(String nombre, String telefono, Proveedor proveedor, Ciudad ciudad_) {
+		try {
+			String insertSucursal = "insert into sucursal(nombre, telefono, nitProveedor, idCiudad) "
+					+ "values (?, ?, ?, ?);";
+
+			PreparedStatement pst = con.prepareStatement(insertSucursal);
+
+			pst.setString(1, nombre);
+			pst.setString(2, telefono);
+			pst.setString(3, proveedor.getNit());
+			pst.setInt(4, ciudad_.getIdCiudad());
+
+			pst.execute();
+			System.out.println("Sucursal almacenado correctamente en la base de datos");
+
+		} catch (Exception e) {
+			System.out.println("Error al almacenar la sucursal en la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void actualizarSucursal(String nombre, String telefono, Proveedor proveedor, Ciudad ciudad_,
+			String nombre_) {
+
+		try {
+			String updateSucursal = "update sucursal set nombre = ?, telefono = ?, nitProveedor = ?, idCiudad = ? "
+					+ "where nombre = ?";
+
+			PreparedStatement pst = con.prepareStatement(updateSucursal);
+
+			pst.setString(1, nombre);
+			pst.setString(2, telefono);
+			pst.setString(3, proveedor.getNit());
+			pst.setInt(4, ciudad_.getIdCiudad());
+			pst.setString(5, nombre_);
+
+			pst.execute();
+
+			System.out.println("Se actualizó la sucursal correctamente en la base de datos");
+
+		} catch (SQLException e) {
+			System.out.println("Error al actualizar la sucursal en la base de datos " + e.getMessage());
+		}
+
+	}
+
+
+	public static void eliminarSucursal(String nombre) {
+
+		try {
+			String deleteSucursal = "delete from sucursal where nombre = '" + nombre + "'";
+			Statement st = con.createStatement();
+
+			int flag = st.executeUpdate(deleteSucursal);
+
+			if(flag >= 0) System.out.println("Sucursal eliminada");
+
+		} catch (SQLException e) {
+			System.out.println("Error al eliminar la sucursal de la base de datos " + e.getMessage());
+		}
+
+	}
+	
+	private static void cargarReporte(String nombreParametro, String valorParametro, String nombreArchivoJasper) {
+		
+		try {
+			JasperReport reporte = null;
+			File file = new File("src/resource/"+nombreArchivoJasper+".jasper");
+
+			Map<String, Object> parametro = new HashMap<>();
+			parametro.put(nombreParametro, valorParametro);
+			
+			// Cargando el archivo jasper
+			reporte = (JasperReport) JRLoader.loadObject(file);
+
+			// Generando la información del reporte
+			JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, con);
+			
+			// Vista del reporte
+			JasperViewer view = new JasperViewer(jprint, false);
+			
+			JFrame.setDefaultLookAndFeelDecorated(true);
+			
+			view.setVisible(true);
+			
+		} catch (JRException e) {
+			System.out.println("Error al generar reporte " + e);
+		} catch(Exception e) {
+			System.out.println("Error " + e);			
+		}
+	}
+	
+	public static void generarReporte1(String nombre) {	
+		
+		String filtro = "%"+ nombre +"%";
+		cargarReporte("nombre", filtro, "ReporteSimple1");
+	}
+
+}

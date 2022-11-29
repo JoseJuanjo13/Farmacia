@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 public class ConexionSQL {
 
-	private static final String CONTROLADOR= "com.mysql.jdbc.Driver";
+	private static final String CONTROLADOR= "com.mysql.cj.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://localhost/farmacia";
 	private static final String USUARIO = "root";
-	private static final String CLAVE = "admin";
+	private static final String CLAVE = "r00t";
 
 	public Connection conexion() {
 
@@ -19,10 +19,10 @@ public class ConexionSQL {
 			Class.forName(CONTROLADOR);
 			conectar = DriverManager.getConnection(URL, USUARIO, CLAVE);
 
-			System.out.println("Conexión exitosa");
+			System.out.println("Conexiï¿½n exitosa");
 
 		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("Error de Conexión " + e.getMessage() );
+			System.out.println("Error de Conexiï¿½n " + e.getMessage() );
 		}
 		return conectar;
 	}

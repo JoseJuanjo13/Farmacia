@@ -62,6 +62,86 @@ public class Persistencia {
 
 	}
 
+	public static int guardarFactura (double total , int cedulaCliente , LocalDate fecha){
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String fecha_ = fecha.format(formatter);
+		int idFactura = traerFactura();
+		try {
+
+			String insertFactura = "insert into factura(total , fecha , cedula_cliente ) "
+					 + "values (?, ?, ?)";
+
+			PreparedStatement pst = con.prepareStatement(insertFactura);
+
+			pst.setDouble(1, total);
+			pst.setString(2, fecha_);
+			pst.setInt(3, cedulaCliente);
+
+
+			pst.execute();
+			System.out.println("Factura almacenada correctamente en la base de datos");
+
+
+
+
+
+		} catch (Exception e) {
+			System.out.println("Error al almacenar la factura en la base de datos " + e.getMessage());
+		}
+		return idFactura;
+
+	}
+
+	public static void registrarDetalle(int unidades , double subTotal , String idProducto , int idFactura) {
+
+		try {
+
+
+			String insertDetalle = "insert into detallefactura (unidades , subTotal , id_factura , id_producto)"
+					 + "values (?, ?, ? , ?)";
+
+			PreparedStatement pst = con.prepareStatement(insertDetalle);
+
+			pst.setInt(1, unidades);
+			pst.setDouble(2, subTotal);
+			pst.setInt(3, idFactura);
+			pst.setString(4, idProducto);
+
+			pst.execute();
+			System.out.println("Detalle almacenado correctamente en la base de datos");
+
+
+
+		} catch (Exception e) {
+			System.out.println("Error al almacenar el detalle en la base de datos " + e.getMessage());
+		}
+
+	}
+
+	public static int traerFactura(){
+
+		String buscarUltimaFactura = "SELECT MAX(id_factura) as numeroFactura FROM factura";
+
+		Statement st;
+
+		int resultado = -1;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(buscarUltimaFactura);
+			if(rs.next()){
+				resultado = rs.getInt(1);
+				System.out.println(resultado);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("se daño");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return resultado;
+	}
 
 	public static void cargarDatosDescInte(Farmacia farmacia) {
 		DescuentoInteres descuentoInteres;

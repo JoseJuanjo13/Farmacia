@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import modelo.Ciudad;
 import modelo.Cliente;
 import modelo.DescuentoInteres;
+import modelo.DetalleFactura;
 import modelo.Farmacia;
 import modelo.Presentacion;
 import modelo.Producto;
@@ -61,6 +62,15 @@ public class ModelFactoryController implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void registrarDetalle(int unidades , double subTotal , String idProducto , int idFactura){
+		Persistencia.registrarDetalle(unidades, subTotal, idProducto, idFactura);
+	}
+
+	public int crearFactura(double total , int cedulaCliente , LocalDate fecha){
+
+		return Persistencia.guardarFactura(total, cedulaCliente, fecha);
 	}
 
 	public Producto crearProducto(String idProducto, String nombre, String precio, String cantidad, LocalDate fechaVencimiento,
@@ -182,6 +192,10 @@ public class ModelFactoryController implements Runnable {
 
 		Persistencia.actualizarSucursal(nombre, telefono, proveedor, ciudad_, nombre_);
 
+	}
+
+	public void anadirDetalle(DetalleFactura detalleFactura){
+		farmacia.anadirDetalle(detalleFactura);
 	}
 
 	public boolean eliminarSucursal(String nombre) {

@@ -9,7 +9,7 @@ public class ConexionSQL {
 	private static final String CONTROLADOR= "com.mysql.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://localhost/farmacia";
 	private static final String USUARIO = "root";
-	private static final String CLAVE = "admin";
+	private static final String CLAVE = "root";
 
 	public Connection conexion() {
 

@@ -21,6 +21,7 @@ public class Farmacia implements Serializable {
 	private ArrayList<Proveedor> listaProveedores = new ArrayList<>();
 	private ArrayList<Ciudad> listaCiudades = new ArrayList<>();
 	private ArrayList<Sucursal> listaSucursales = new ArrayList<>();
+	private ArrayList<DetalleFactura> listaDetalles = new ArrayList<>();
 
 	public Farmacia(){
 
@@ -95,6 +96,23 @@ public class Farmacia implements Serializable {
 
 	public void setListaSucursales(ArrayList<Sucursal> listaSucursales) {
 		this.listaSucursales = listaSucursales;
+	}
+
+
+
+
+	public ArrayList<DetalleFactura> getListaDetalles() {
+		return listaDetalles;
+	}
+
+	public void setListaDetalles(ArrayList<DetalleFactura> listaDetalles) {
+		this.listaDetalles = listaDetalles;
+	}
+
+	public void anadirDetalle(DetalleFactura detalleFactura){
+
+		boolean centinela = listaDetalles.add(detalleFactura);
+		System.out.println(centinela);
 	}
 
 	public Producto agregarProducto(String idProducto, String nombre, String precio, String cantidad, LocalDate fechaVencimiento,
@@ -189,6 +207,7 @@ public class Farmacia implements Serializable {
 
 		return producto;
 	}
+
 
 	public Cliente agregarCliente(String cedula, String nombre, String apellido, String direccion, String telefono, String email,
 			String ciudad, String depto) {

@@ -1,3 +1,4 @@
+ -- use farmacia;
 insert into descuentointeres(idDescInt,tipo,cantidad) values (1, 'Descuento 1000', 1000.0);
 insert into descuentointeres(idDescInt,tipo,cantidad) values (2, 'Descuento 3000', 3000.0);
 insert into descuentointeres(idDescInt,tipo,cantidad) values (3, 'Descuento 5000', 5000.0);

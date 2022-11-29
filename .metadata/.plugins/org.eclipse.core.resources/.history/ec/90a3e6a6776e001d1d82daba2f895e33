@@ -1,0 +1,63 @@
+package modelo;
+
+import java.io.Serializable;
+
+public class DetalleFactura implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private int idDetalleFactura;
+	private int unidades;
+	private double subtotal;
+	private Factura factura;
+	private Producto producto;
+
+	public DetalleFactura() {
+
+	}
+
+	public int getIdDetalleFactura() {
+		return idDetalleFactura;
+	}
+
+	public void setIdDetalleFactura(int idDetalleFactura) {
+		this.idDetalleFactura = idDetalleFactura;
+	}
+
+	public int getUnidades() {
+		return unidades;
+	}
+
+	public void setUnidades(int unidades) {
+		this.unidades = unidades;
+	}
+
+	public double getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(double subtotal) {
+		this.subtotal = subtotal;
+	}
+
+	public Factura getFactura() {
+		return factura;
+	}
+
+	public void setFactura(Factura factura) {
+		this.factura = factura;
+	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+
+}

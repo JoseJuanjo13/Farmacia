@@ -13,6 +13,7 @@ public class Factura implements Serializable {
 	private int idFactura;
 	private double total;
 	private LocalDate fecha;
+	private String cedulaCliente;
 	private Cliente cliente;
 
 	public Factura(){
@@ -50,6 +51,22 @@ public class Factura implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+
+	/**
+	 * @return the cedulaCliente
+	 */
+	public String getCedulaCliente() {
+		return cedulaCliente;
+	}
+
+	/**
+	 * @param cedulaCliente the cedulaCliente to set
+	 */
+	public void setCedulaCliente(String cedulaCliente) {
+		this.cedulaCliente = cedulaCliente;
+	}
+
+
 
 
 }

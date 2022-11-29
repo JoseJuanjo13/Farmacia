@@ -1,0 +1,101 @@
+package modelo;
+
+import java.io.Serializable;
+
+public class DetalleFactura implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private int idDetalleFactura;
+	private int unidades;
+	private double subtotal;
+	private String codigoProducto;
+	private String nombreProducto;
+	private String codigoFactura;
+	private Factura factura;
+	private Producto producto;
+
+	public DetalleFactura() {
+
+	}
+
+	public int getIdDetalleFactura() {
+		return idDetalleFactura;
+	}
+
+	public void setIdDetalleFactura(int idDetalleFactura) {
+		this.idDetalleFactura = idDetalleFactura;
+	}
+
+	public int getUnidades() {
+		return unidades;
+	}
+
+	public void setUnidades(int unidades) {
+		this.unidades = unidades;
+	}
+
+	public double getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(double subtotal) {
+		this.subtotal = subtotal;
+	}
+
+	public Factura getFactura() {
+		return factura;
+	}
+
+	public void setFactura(Factura factura) {
+		this.factura = factura;
+	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+	public String getCodigoProducto() {
+		return codigoProducto;
+	}
+
+	public void setCodigoProducto(String codigoProducto) {
+		this.codigoProducto = codigoProducto;
+	}
+
+	public String getNombreProducto() {
+		return nombreProducto;
+	}
+
+	public void setNombreProducto(String nombreProducto) {
+		this.nombreProducto = nombreProducto;
+	}
+
+	public String getCodigoFactura() {
+		return codigoFactura;
+	}
+
+	public void setCodigoFactura(String codigoFactura) {
+		this.codigoFactura = codigoFactura;
+	}
+
+	public DetalleFactura(int idDetalleFactura, int unidades, double subtotal, String codigoProducto,
+			String nombreProducto, String codigoFactura) {
+		this.idDetalleFactura = idDetalleFactura;
+		this.unidades = unidades;
+		this.subtotal = subtotal;
+		this.codigoProducto = codigoProducto;
+		this.nombreProducto = nombreProducto;
+		this.codigoFactura = codigoFactura;
+	}
+
+
+
+}

@@ -2,6 +2,8 @@ package controller;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import aplicacion.FarmaciaAplicacion;
@@ -21,6 +23,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import modelo.Ciudad;
 import modelo.Cliente;
 import modelo.DescuentoInteres;
+import modelo.DetalleFactura;
+import modelo.Factura;
 import modelo.Farmacia;
 import modelo.Presentacion;
 import modelo.Producto;
@@ -101,7 +105,8 @@ public class ContenedorPrincipalController {
     @FXML
     private TextField txtCodigoProd, txtUnidades;
 
-    private Label labelTotal, labelSubtotal, labelIVA;
+    @FXML
+    private Label labelTotal;
 
     private double acumTotal = 0, acumIVA = 0, acumTotalIVA = 0;
 
@@ -122,11 +127,24 @@ public class ContenedorPrincipalController {
     @FXML
     private TableColumn<Sucursal, String> columnNombreSucu, columnTelefonoSucu;
 
+    @FXML
+    private TableView<DetalleFactura> tableListaDetalle;
+
+    @FXML
+    private TableColumn<DetalleFactura, String> columCodigoProducto;
+
+    @FXML
+    private TableColumn<DetalleFactura, Integer> columUnidadesProducto;
+
+    @FXML
+    private TableColumn<DetalleFactura, Double> columnPrecioProductoDetalle , columSubTotal;
+
 
     private Producto productoSeleccionado;
     private Cliente clienteSeleccionado;
     private Proveedor proveedorSeleccionado;
     private Sucursal sucursalSeleccionado;
+    private DetalleFactura detalleSeleccionado;
 
 	ModelFactoryController modelFactoryController;
 	Farmacia farmacia;
@@ -137,6 +155,8 @@ public class ContenedorPrincipalController {
     ObservableList<Cliente> listadoClientes = FXCollections.observableArrayList();
     ObservableList<Proveedor> listadoProveedores = FXCollections.observableArrayList();
     ObservableList<Sucursal> listadoSucursales = FXCollections.observableArrayList();
+    ObservableList<DetalleFactura> listadoDetalles = FXCollections.observableArrayList();
+    ObservableList<DetalleFactura> listadoDetallesTemporal = FXCollections.observableArrayList();
 
 	public ContenedorPrincipalController() {
 
@@ -147,6 +167,9 @@ public class ContenedorPrincipalController {
 
 	@FXML
 	 void initialize() {
+
+
+		fechaFactura.setValue(LocalDate.now());
 
 		for (DescuentoInteres descuentoInteres : farmacia.getListaDescuentoInteres()) {
 			listaDesInProd.add(descuentoInteres.getTipo());
@@ -173,6 +196,11 @@ public class ContenedorPrincipalController {
 		}
 		boxCiudadSucursal.setItems(listaCiudad);
 
+		for (Cliente cliente: farmacia.getListaClientes()) {
+			listaCedula.add(cliente.getCedula());
+		}
+		boxCedulaCli.setItems(listaCedula);
+
 		//producto
 		this.columnNombreProducto.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 		this.columnPrecioProducto.setCellValueFactory(new PropertyValueFactory<>("precio"));
@@ -186,6 +214,19 @@ public class ContenedorPrincipalController {
     	    	cargarCampos();
     	    }
     	});
+
+	   	//detalle factura
+	   	this.columCodigoProducto.setCellValueFactory(new PropertyValueFactory<>("codigoProducto"));
+	   	this.columUnidadesProducto.setCellValueFactory(new PropertyValueFactory<>("unidades"));
+	   	this.columnPrecioProductoDetalle.setCellValueFactory(new PropertyValueFactory<>("precioUnitario"));
+	   	this.columSubTotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
+
+		tableListaDetalle.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+    	    if (newSelection != null) {
+    	    	detalleSeleccionado = newSelection;
+    	    }
+    	});
+
 
 	   	//cliente
 	   	this.columnCedulaCliente.setCellValueFactory(new PropertyValueFactory<>("cedula"));
@@ -814,16 +855,85 @@ public class ContenedorPrincipalController {
     @FXML
     void agregarDetalleFac(ActionEvent event) {
 
+    	String codigoProducto = txtCodigoProd.getText();
+    	int unidades = Integer.valueOf(txtUnidades.getText());
+    	Producto productoEncontrado = null;
+
+    	for (Producto producto : listadoProductos) {
+    		if(producto.getIdProducto().equalsIgnoreCase(codigoProducto)){
+    			productoEncontrado = producto;
+    		}
+		}
+    	if(productoEncontrado != null){
+    		double subTotal = productoEncontrado.getPrecio()* unidades;
+
+    		DetalleFactura detalleFactura = new DetalleFactura(00, unidades, subTotal , productoEncontrado.getPrecio(), productoEncontrado.getIdProducto(), productoEncontrado.getNombre());
+        	modelFactoryController.anadirDetalle(detalleFactura);
+        	listadoDetallesTemporal.add(detalleFactura);
+        	getListaDetalles();
+        	txtCodigoProd.clear();
+        	txtUnidades.clear();
+        	calcularTotal();
+    	}else{
+    		mostrarMensaje("Notificacion Usuario", "Producto no encontrado", "", AlertType.WARNING);
+    	}
     }
 
 	@FXML
     void eliminarDetalleFac(ActionEvent event) {
 
+		int index;
+
+		if(detalleSeleccionado!= null) {
+				 index = buscarDetalle(detalleSeleccionado.getCodigoProducto());
+				 if(index != -1){
+					 listadoDetallesTemporal.remove(index);
+					 getListaDetalles();
+				 }
+		}
     }
+
+	public int buscarDetalle(String codigoProducto){
+
+    	int index = -1;
+
+    	for (int i = 0; i < listadoDetallesTemporal.size(); i++) {
+    		if(listadoDetallesTemporal.get(i).getCodigoProducto().equalsIgnoreCase(codigoProducto)){
+    			index = i;
+    		}
+		}
+    	return index;
+	}
 
     @FXML
     void crearFactura(ActionEvent event) {
 
+    	int idFactura = modelFactoryController.crearFactura(calcularTotal(), Integer.valueOf(boxCedulaCli.getValue()) , fechaFactura.getValue());
+
+
+
+    	for (DetalleFactura detalle : listadoDetallesTemporal) {
+    		double subTotal = 0;
+    		subTotal = detalle.getUnidades() * detalle.getPrecioUnitario();
+    		modelFactoryController.registrarDetalle(detalle.getUnidades(), subTotal, detalle.getCodigoProducto(), idFactura);
+		}
+    	calcularTotal();
+    	listadoDetallesTemporal.clear();
+    	listadoDetalles.clear();
+    	labelTotal.setText("0");
+    	getListaDetalles();
+
+    }
+
+    public double calcularTotal(){
+    	 double total = 0;
+
+    	 for (DetalleFactura detalle : listadoDetallesTemporal) {
+     		total += detalle.getUnidades() * detalle.getPrecioUnitario();
+ 		}
+    	 String aux = String.valueOf(total);
+    	 labelTotal.setText(" " + aux);
+    	 return total;
     }
 
 	private void mostrarMensaje(String titulo,String header,String contenido,AlertType alertType) {
@@ -854,6 +964,20 @@ public class ContenedorPrincipalController {
 		//sucursal
 		tableViewSucursal.getItems().clear();
 		tableViewSucursal.setItems(getSucursales());
+
+		//
+		tableListaDetalle.getItems().clear();
+		tableListaDetalle.setItems(getListaDetalles());
+
+
+	}
+
+
+	private ObservableList<DetalleFactura> getListaDetalles() {
+		// TODO Auto-generated method stub
+		listadoDetalles.clear();
+		listadoDetalles.addAll(listadoDetallesTemporal);
+		return listadoDetalles;
 
 	}
 

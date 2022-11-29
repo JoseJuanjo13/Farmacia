@@ -12,8 +12,10 @@ public class DetalleFactura implements Serializable {
 	private int idDetalleFactura;
 	private int unidades;
 	private double subtotal;
-	private Factura factura;
-	private Producto producto;
+	private double precioUnitario;
+	private String codigoProducto;
+	private String nombreProducto;
+	private String codigoFactura;
 
 	public DetalleFactura() {
 
@@ -43,21 +45,52 @@ public class DetalleFactura implements Serializable {
 		this.subtotal = subtotal;
 	}
 
-	public Factura getFactura() {
-		return factura;
+	public String getCodigoProducto() {
+		return codigoProducto;
 	}
 
-	public void setFactura(Factura factura) {
-		this.factura = factura;
+	public void setCodigoProducto(String codigoProducto) {
+		this.codigoProducto = codigoProducto;
 	}
 
-	public Producto getProducto() {
-		return producto;
+	public String getNombreProducto() {
+		return nombreProducto;
 	}
 
-	public void setProducto(Producto producto) {
-		this.producto = producto;
+	public void setNombreProducto(String nombreProducto) {
+		this.nombreProducto = nombreProducto;
 	}
+
+	public String getCodigoFactura() {
+		return codigoFactura;
+	}
+
+	public void setCodigoFactura(String codigoFactura) {
+		this.codigoFactura = codigoFactura;
+	}
+
+
+
+	public double getPrecioUnitario() {
+		return precioUnitario;
+	}
+
+	public void setPrecioUnitario(double precioUnitario) {
+		this.precioUnitario = precioUnitario;
+	}
+
+	public DetalleFactura(int idDetalleFactura, int unidades, double subtotal, double precioUnitario,
+			String codigoProducto, String nombreProducto) {
+		this.idDetalleFactura = idDetalleFactura;
+		this.unidades = unidades;
+		this.subtotal = subtotal;
+		this.precioUnitario = precioUnitario;
+		this.codigoProducto = codigoProducto;
+		this.nombreProducto = nombreProducto;
+	}
+
+
+
 
 
 }
